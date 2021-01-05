@@ -65,16 +65,6 @@ covariate <- c(0.70, -1.25, 0.48, -0.47, 0.86, 1.25, 1.17, -1.35, -0.84, -0.55)
 # Fit the MGGUM model
 mod <- BMGGUM(GGUM.Data=GGUM.Data, delindex=delindex, trait=2, ind=ind, option=4, model="UM8", covariate=covariate)
 #> [1] "Case 9 was deleted because they endorse the same response option across all items"
-#> Warning: There were 7 divergent transitions after warmup. See
-#> http://mc-stan.org/misc/warnings.html#divergent-transitions-after-warmup
-#> to find out why this is a problem and how to eliminate them.
-#> Warning: Examine the pairs() plot to diagnose sampling problems
-#> Warning: Bulk Effective Samples Size (ESS) is too low, indicating posterior means and medians may be unreliable.
-#> Running the chains for more iterations may help. See
-#> http://mc-stan.org/misc/warnings.html#bulk-ess
-#> Warning: Tail Effective Samples Size (ESS) is too low, indicating posterior variances and tail quantiles may be unreliable.
-#> Running the chains for more iterations may help. See
-#> http://mc-stan.org/misc/warnings.html#tail-ess
 
 # Extract the theta estimates 
 theta <- Extract.BMGGUM(x=mod, pars='theta')
@@ -86,15 +76,15 @@ theta <- t(theta)
 # theta estimates in p*trait matrix format
 theta
 #>              [,1]       [,2]
-#>  [1,]  1.02653892  0.1190288
-#>  [2,] -1.49707999 -0.5484603
-#>  [3,] -1.22685276 -0.5326736
-#>  [4,]  0.73825429  0.8939866
-#>  [5,]  0.01329808 -0.7303305
-#>  [6,]  0.11594903 -0.7063715
-#>  [7,]  0.87265448  0.3888945
-#>  [8,]  0.08223168  0.3530410
-#>  [9,]  0.64802058  0.7450873
+#>  [1,]  1.02027771  0.1112450
+#>  [2,] -1.50303636 -0.4757993
+#>  [3,] -1.23103651 -0.5853762
+#>  [4,]  0.69315111  0.9592051
+#>  [5,] -0.03894941 -0.7695685
+#>  [6,]  0.15619541 -0.6873740
+#>  [7,]  0.84861339  0.3318221
+#>  [8,]  0.12068104  0.4478592
+#>  [9,]  0.66487328  0.8901462
 
 # Extract the tau estimates 
 tau <- Extract.BMGGUM(x=mod, pars='tau')
@@ -106,29 +96,26 @@ tau <- t(tau)
 # tau estimates in I*(option-1) matrix format
 tau
 #>            [,1]       [,2]       [,3]
-#> [1,] -0.8738538 -1.5282223 -2.2845420
-#> [2,] -1.5256997 -1.8672470 -1.0791201
-#> [3,] -3.1769028 -0.8747523 -0.8697593
-#> [4,] -2.3305834 -1.3352755 -1.0232087
+#> [1,] -0.8559964 -1.4779004 -2.3206627
+#> [2,] -1.5405565 -1.8804769 -1.0592084
+#> [3,] -3.1956647 -0.8870041 -0.8631355
+#> [4,] -2.2876189 -1.3062246 -1.0204106
 
 # Extract the lambda estimates 
 lambda <- Extract.BMGGUM(x=mod, pars='lambda')
 # lambda[1,1] is the coefficient linking person covariate 1 to latent trait 1
 # lambda[1,2] is the coefficient linking person covariate 1 to latent trait 2
 lambda
-#>                   mean    se_mean        sd       2.5%        50%    97.5%
-#> lambda[1,1]  0.2715172 0.02619172 0.5021564 -0.7016386  0.2607421 1.280896
-#> lambda[1,2] -0.2109062 0.07406314 0.7034274 -1.6469719 -0.2123634 1.187023
-#>                 n_eff     Rhat
-#> lambda[1,1] 367.57829 1.004650
-#> lambda[1,2]  90.20576 1.042771
+#>                   mean    se_mean        sd       2.5%        50%     97.5%
+#> lambda[1,1]  0.2563650 0.03887061 0.5254527 -0.6997604  0.2333346 1.4214331
+#> lambda[1,2] -0.2542906 0.02739855 0.6164561 -1.5319360 -0.2272128 0.8995756
+#>                n_eff     Rhat
+#> lambda[1,1] 182.7362 1.023394
+#> lambda[1,2] 506.2316 1.000784
 
 # Obtain model fit statistic waic 
 waic <- Modfit.BMGGUM(x=mod, index='waic')
-#> Warning: 
-#> 14 (46.7%) p_waic estimates greater than 0.4. We recommend trying loo instead.
 loo <- Modfit.BMGGUM(mod)
-#> Warning: Some Pareto k diagnostic values are too high. See help('pareto-k-diagnostic') for details.
 
 # Obtain the density plots for alpha
 Bayesplot.BMGGUM(x=mod, pars='alpha', plot='density', inc_warmup=F)

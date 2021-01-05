@@ -30,10 +30,10 @@ The goal of BMGGUM is to estimate Multidimensional Generalized Graded Unfolding 
 
 ## Installation
 
-You can install the released version of BMGGUM from [CRAN](https://CRAN.R-project.org) with:
+You can install the development version of BMGGUM from GitHub:
 
 ``` r
-install.packages("BMGGUM")
+devtools::install_github("Naidantu/BMGGUM")
 ```
 
 ## Example

@@ -1,0 +1,100 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# BMGGUM
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+The goal of BMGGUM is to estimate Multidimensional Generalized Graded Unfolding Model (MGGUM) using Bayesian method. Specifically,the R package **rstan** that utilizes the Hamiltonian Monte Carlo sampling algorithm was used for estimation. Below are some important features of the BMGGUM package:
+
+1. Allows users to incorporate person covariates (e.g., age, gender, education) into the estimation to improve estimation accuracy.
+2. Automatically deals with missing data in a way similar to how full information maximum likelihood handles missing data.
+3. Allows users to estimate the **multidimensional version** of three unfolding models that are available in the software GGUM2004 (Roberts, Fang, Cui, & Wang, 2006).
+    * UM8: The Generalized Graded Unfolding Model (GGUM).
+    * UM4: The Partial Credit Unfolding Model, which is the GGUM with all alphas constrained to 1.
+    * UM7: The Generalized Rating Scale Unfolding Model, which is the GGUM with equal taus across items.
+4. Five functions (i.e., BMGGUM(), Extract.BMGGUM(), Modfit.BMGGUM(), Bayesplot.BMGGUM(), and Itemplot.BMGGUM()) are provided for model estimation, results extraction, model fit examination (e.g.,WAIC, loo), and plottings, respectively.
+
+## Installation
+
+You can install the released version of BMGGUM from [CRAN](https://CRAN.R-project.org) with:
+
+``` r
+install.packages("BMGGUM")
+```
+
+## Example
+
+This is a basic example which shows you how to prepare data, fit the model, extract and plot results.
+
+```{r example}
+library(BMGGUM)
+
+## basic example code
+# Response data
+GGUM.Data <- c(1,4,4,1,1,1,1,1,1,1,4,1,1,3,1,1,NA,2,NA,3,2,2,2,1,3,2,NA,2,1,1,2,1,NA,NA,NA,1,3,NA,1,2)
+GGUM.Data <- matrix(GGUM.Data,nrow = 10)
+
+# delindex
+delindex <- c(1,-1,2,1,3,-1,4,1)
+delindex <- matrix(delindex,nrow = 2)
+
+# ind
+ind <- c(1,1,2,2)
+ind <- t(ind)
+
+# covariate
+covariate <- c(0.70, -1.25, 0.48, -0.47, 0.86, 1.25, 1.17, -1.35, -0.84, -0.55)
+
+# Fit the MGGUM model
+mod <- BMGGUM(GGUM.Data=GGUM.Data, delindex=delindex, trait=2, ind=ind, option=4, model="UM8", covariate=covariate)
+
+# Extract the theta estimates 
+theta <- Extract.BMGGUM(x=mod, pars='theta')
+# Turn the theta estimates into p*trait matrix where p equals sample size and trait equals the number of latent traits
+theta <- theta[,1]
+# nrow=trait
+theta <- matrix(theta, nrow=2)  
+theta <- t(theta)
+# theta estimates in p*trait matrix format
+theta
+
+# Extract the tau estimates 
+tau <- Extract.BMGGUM(x=mod, pars='tau')
+# Turn the tau estimates into I*(option-1) matrix where I equals the number of items and option equals the number of response options
+tau <- tau[,1]
+# nrow=option-1
+tau <- matrix(tau, nrow=3)  
+tau <- t(tau)
+# tau estimates in I*(option-1) matrix format
+tau
+
+# Extract the lambda estimates 
+lambda <- Extract.BMGGUM(x=mod, pars='lambda')
+# lambda[1,1] is the coefficient linking person covariate 1 to latent trait 1
+# lambda[1,2] is the coefficient linking person covariate 1 to latent trait 2
+lambda
+
+# Obtain model fit statistic waic 
+waic <- Modfit.BMGGUM(x=mod, index='waic')
+loo <- Modfit.BMGGUM(mod)
+
+# Obtain the density plots for alpha
+Bayesplot.BMGGUM(x=mod, pars='alpha', plot='density', inc_warmup=F)
+
+# Obtain item plots with ORCs for item 1, 2, 3
+Itemplot.BMGGUM(x=mod, items = 1:3)
+```

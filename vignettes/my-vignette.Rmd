@@ -1,0 +1,231 @@
+---
+title: "BMGGUM: Bayesian Estimation of Multidimensional Generalized Graded Unfolding Model"
+author: Naidan Tu, Bo Zhang
+output: 
+  rmarkdown::html_vignette:
+    toc: true
+vignette: >
+  %\VignetteIndexEntry{BMGGUM}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+  
+```{r, include = FALSE}
+library(BMGGUM)
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.align = "center",
+  fig.height = 4,
+  fig.width = 6
+)
+```
+
+
+## Overview
+
+The BMGGUM package was developed to estimate Multidimensional Unfolding Models (MGGUM) using Bayesian method. Specifically,the R package **rstan** that utilizes the Hamiltonian Monte Carlo sampling algorithm was used for estimation. Below are some important features of the BMGGUM package:
+  
+1. Allows users to incorporate person covariates (e.g., age, gender, education) into the estimation process to improve estimation accuracy.
+
+2. Automatically deals with missing data in a way similar to how full information maximum likelihood handles missing data.
+
+3. Allows users to estimate the **multidimensional version** of three unfolding models that are available in the software GGUM2004 (Roberts, Fang, Cui, & Wang, 2006).
+    * UM8: The Generalized Graded Unfolding Model (GGUM).
+    * UM4: The Partial Credit Unfolding Model, which is the GGUM with all alphas constrained to 1.
+    * UM7: The Generalized Rating Scale Unfolding Model, which is the GGUM with equal taus across items.
+
+4. Five functions (i.e., BMGGUM(), Extract.BMGGUM(), Modfit.BMGGUM(), Bayesplot.BMGGUM(), and Itemplot.BMGGUM()) are provided for model estimation, results extraction, model fit examination (e.g.,WAIC, loo, chisq/df), and plottings, respectively. See below for function details. 
+
+
+## Tutorial
+
+### Step 1: Input data
+
+A randomly generated dataset is used as an example in this tutorial. The first input (**GGUM.Data**) is a dataset including responses from 10 respondents answering a 4-item measure on a 4-point Likert scale measuring 2 traits. Missingness was also simulated for demonstration. Note that data is stored in a wide format.
+
+```{r, echo=FALSE}
+# Response data
+#>GGUM.Data <- c(1,4,4,1,2,1,1,3,1,1,4,1,1,3,1,1,NA,2,NA,3,4,2,2,1,3,2,NA,2,1,1,2,1,NA,NA,NA,1,3,NA,1,4)
+#>GGUM.Data <- matrix(GGUM.Data,nrow = 10)
+```
+
+ID        | item 1    | item 2    | item 3    | item 4
+--------- | --------- | --------- | --------- | --------- 
+1         | 1         | 4         | 4         | 2
+2         | 4         | 1         | 2         | 1
+3         | 4         | 1         | 2         | NA
+4         | 1         | 3         | 1         | NA
+5         | 2         | 1         | 3         | NA
+6         | 1         | 1         | 2         | 1
+7         | 1         | NA        | NA        | 3
+8         | 3         | 2         | 2         | NA
+9         | 1         | NA        | 1         | 1
+10        | 1         | 3         | 1         | 4
+
+The second input (**delindex**) is a two-row matrix specifying item numbers and the positivity/negativity of items. Users need to specify the **delindex** by themselves. The first row is item number (i.e., 1, 2, 3, 4...), and the second row indicates signs of delta of each item (-1, 0, 1). For items with negative deltas, "-1" should be assigned; for items with positive deltas, "1" should be assigned; for uncertain items whose deltas may be either positive or negative (e.g., intermediate items), "0" should assigned. We recommend at least two positive and two negative items per trait for better estimation. In this example, item 1 and 3 are negative, and item 2 and 4 are positive.
+
+```{r, echo=FALSE}
+# delindex
+#>delindex <- c(1,-1,2,1,3,-1,4,1)
+#>delindex <- matrix(delindex,nrow = 2)
+```
+
+row       | item 1    | item 2    | item 3    | item 4
+--------- | --------- | --------- | --------- | --------- 
+1         | 1         | 2         | 3         | 4
+2         | -1        | 1         | -1        | 1
+
+The next part of the data is a row vector mapping items to traits. For example, c(1, 1, 1, 2, 2, 2) means that the first 3 items measure trait 1 and the last 3 items measure trait 2. In the current example, item 1 and 2 measure trait 1, and item 3 and 4 measure trait 2. Note that the current implementation of BMGGUM cannot deal with within-item multidimensionality (e.g., an item loading on two or more factors).
+
+```{r, echo=FALSE}
+# ind
+#>ind <- c(1,1,2,2)
+#>ind <- t(ind)
+```
+
+row       | item 1    | item 2    | item 3    | item 4
+--------- | --------- | --------- | --------- | --------- 
+1         | 1         | 1         | 2         | 2
+
+If person covariates are to be included, a p*c person covariate matrix where p equals sample size and c equals the number of covariates is also needed. In this example, 1 person covariate is included. However, the default is a pure measurement model with no person covariate.
+
+```{r, echo=FALSE}
+# covariate
+#>covariate <- c(0.70, -1.25, 0.48, -0.47, 0.86, 1.25, 1.17, -1.35, -0.84, -0.55)
+```
+
+ID        | covariate 
+--------- | --------- 
+1         | 0.70          
+2         | -1.25         
+3         | 0.48 
+4         | -0.47          
+5         | 0.86         
+6         | 1.25 
+7         | 1.17          
+8         | -1.35         
+9         | -0.84 
+10        | -0.55 
+
+### Step 2: Estimate using the function BMGGUM()
+
+```{r, warning = FALSE}
+# Fit the MGGUM model
+#>mod <- BMGGUM(GGUM.Data=GGUM.Data, delindex=delindex, trait=2, ind=ind, option=4, model="UM8", covariate=covariate)
+#>mod
+```
+
+The function BMGGUM() implements full Bayesian estimation of MGGUM using rstan. The returned object stores information including the (1)stanfit object (item parameter estimates in this object are organized in delta-ascending order), (2)estimated item parameters, (3)estimated person parameters, (4)correlations among traits, (5)regression coefficients linking person covariates to each trait, (6)response data (excluding respondents who endorse a single option across all items), and (7)the input row vector mapping each item to each trait. Note that when covariates are included, output (4) represents residual correlations among the traits after controlling for the covariates. If standardized regression coefficients are expected, users can standardize covariates before inputting them. Below are a list of other arguments it contains, the default of which can be manually replaced:
+  
+* __model__. The default is the MGGUM. To fit the Multidimensional Generalized Rating Scale Unfolding Model, input model="UM7". Similarly, to fit the Multidimensional Partial Credit Unfolding Model, input model="UM4".
+* __iter__. The number of iterations. The default is 1000. See documentation for rstan for more details.
+* __chains__. The number of chains. The default value is 3. See documentation for rstan for more details.
+* __warmup__. The number of warmups to discard. The default value is the first half of the iterations. See documentation for rstan for more details.
+* __adapt_delta__. Target average proposal acceptance probability during Stan's adaptation period. The default value is 0.90. See documentation for rstan for more details.
+* __max_treedepth__. Cap on the depth of the trees evaluated during each iteration. The default value is 15. See documentation for rstan for more details.
+* __init__. Initial values for estimated parameters. The default is random initial values. See documentation for rstan for more details.
+* __thin__. Thinning. The default value is 1. See documentation for rstan for more details.
+* __core__. The number of computer cores used for parallel computing. The default value is 2. Users can use the function **detectCores()**in the package **parallel** to detect the number of cores of their pc/laptop. Usually, users just need to set this number equal to the number of **chains**. In the case of many chains, we recommend users to leave at least one core unoccupied to avoid R crash. 
+* __ma__. Mean of the prior distribution for alphas, which follows a lognormal distribution. The default value is 0.
+* __va__. Standard deviation of the prior distribution for alphas. The default value is 0.5.
+* __mdne__. Mean of the prior distribution for negative deltas, which follows a normal distribution. The default value is -1.
+* __mdnu__. Mean of the prior distribution for neutral deltas, which follows a normal distribution. The default value is 0.
+* __mdpo__. Mean of the prior distribution for positive deltas, which follows a normal distribution. The default value is 1.
+* __vd__. Standard deviation of the prior distribution for deltas. The default value is 1.
+* __mt__. Means of the prior distributions for taus, which follows a normal distribution. The default values are seq(-3,0,3/(options-1)). The last one has to be 0. For items with only 2 options, we recommend to use (-2,0) as means of priors.
+* __vt__. Standard deviation of the prior distribution for taus. The default value is 2.
+
+### Step 3: Extract the estimated results using the function Extract.BMGGUM()
+
+```{r}
+# Extract theta estimates 
+#>theta <- Extract.BMGGUM(x=mod, pars='theta')
+#>theta
+# Turn theta estimates into p*trait matrix where p equals sample size and trait equals the number of latent traits
+#>theta <- theta[,1]
+# nrow=trait
+#>theta <- matrix(theta, nrow=2, byrow = T)  
+#>theta <- t(theta)
+# theta estimates in p*trait matrix format
+#>theta
+
+
+# Extract tau estimates 
+#>tau <- Extract.BMGGUM(x=mod, pars='tau')
+#>tau
+# Turn the tau estimates into I*(option-1) matrix where I equals the number of items and option equals the number of response options
+#>tau <- tau[,1]
+# nrow=option-1
+#>tau <- matrix(tau, nrow=3, byrow = T)  
+#>tau <- t(tau)
+# tau estimates in I*(option-1) matrix format
+#>tau
+
+
+# Extract lambda estimates 
+#>lambda <- Extract.BMGGUM(x=mod, pars='lambda')
+# lambda[1,1] is the coefficient linking person covariate 1 to latent trait 1
+# lambda[1,2] is the coefficient linking person covariate 1 to latent trait 2
+#>lambda
+```
+
+The function Extract.BMGGUM() extracts BMGGUM estimation results. 
+
+* __pars__. Names of extracted parameters. They can be "theta" (Person trait estimates), "alpha" (Item discrimination parameters), "delta" (Item location parameters), "tau" (Item threshold parameters), "cor" (Correlations among latent traits), "lambda" (Regression coefficients linking person covariates to latent traits), "data" (GGUM.Data after deleting respondents who endorse the same response options across all items), "fit" (The stanfit object), and "dimension" (The input row vector mapping each item to each trait). Note that when the model is UM4 in which alpha is fixed to 1, the extracted alpha is a n*1 matrix where n equals to the number of items. 
+
+### Step 4: Obtain model fit statistics using the function Modfit.BMGGUM()
+
+```{r}
+# Obtain the model fit statistic waic 
+#>waic <- Modfit.BMGGUM(x=mod, index='waic')
+#>waic
+
+# Obtain the model fit statistic loo
+#>loo <- Modfit.BMGGUM(mod)
+#>loo
+
+# Obtain the model fit statistic adjusted chi-square degrees of freedom ratios
+#>chisq.df <- Modfit.BMGGUM(mod, index='chisq.df')
+#>chisq.df
+```
+
+The function Modfit.BMGGUM() provides model fit statistics. The elpd_waic and elpd_loo in the output indicate goodness of fit, meaning the larger elpd_waic and elpd_loo are, the better model fit. The waic and looic in the output indicate badness of fit, meaning the smaller waic and looic are, the better model fit. See documentation for the package **loo**, **GGUM**, Vehtari, Gelman, & Gabry (2017), Drasgow et al.(1995), and Tendeiro & Castro-Alvarez (2019) for more details.
+
+* __index__. Model fit indices. The default is loo, which is the leave-one-out cross-validation. It can also be "waic", which is the widely applicable information criterion, or "chisq.df", which is the adjusted chi-square degrees of freedom ratios calculated for each trait separately that were introduced by Drasgow et al.(1995). Note that chisq.df can only be computed when the sample size is large.
+
+### Step 5: Plotting using the function Bayesplot.BMGGUM()
+
+```{r}
+# Obtain density plots for all alphas. 
+#>Bayesplot.BMGGUM(x=mod, pars='alpha', plot='density', inc_warmup=F)
+```
+
+```{r}
+# Obtain trace plots for the discrimination parameter of the first two items (alpha[1] and alpha[2]).
+#>Bayesplot.BMGGUM(x=mod, pars=paste0("alpha[",1:2,"]"), plot='trace', inc_warmup=F)
+```
+
+```{r}
+# Obtain auto-correlation plots for estimates of trait 1 and trait 2 for the first person (theta[1,1] and theta[1,2]).
+#>Bayesplot.BMGGUM(x=mod, pars=paste0("theta[1,",1:2,"]"), plot='autocorrelation', inc_warmup=F)
+```
+
+The function Bayesplot.BMGGUM() provides plots including density plots, trace plots, and auto-correlation plots to aid model convergence diagnosis. The smoothness of density plots, the stationary status of trace plots, and low degree of auto-correlation in auto-correlation plots all indicate good convergence. In this example, the density plots for alpha look ok. More iterations are needed to achieve stationary status of trace plots for alpha[1] and alpha[2]. The auto-correlation for theta[1,2] is high, and increase thinning might help. Note that results presented above are just for demonstration and may not reflect typical GGUM results. 
+
+* __pars__. Names of plotted parameters. They can be "theta", "alpha", "delta", "tau", "cor", "lambda", or a subset of parameters (e.g., paste0("alpha[",1:2,"]"), paste0("theta[1,",1:2,"]")).
+* __plot__. Types of plots. They can be "density", "trace", or "autocorrelation".
+* __inc_warmup__. Whether to include warmup iterations or not when plotting. The default is FALSE.
+
+### Step 6: Plotting observable response categories (ORCs) for items using the function Itemplot.BMGGUM()
+
+```{r}
+# Obtain item plots with ORCs for all items. 
+#>Itemplot.BMGGUM(x=mod)
+```
+
+```{r}
+# Obtain item plots with ORCs for item 2, 3, 4.
+#>Itemplot.BMGGUM(x=mod, items = 2:4)
+```
+

@@ -47,26 +47,28 @@ model, extract and plot results.
 library(BMGGUM)
 
 ## basic example code
-# Response data
+## Step 1: Input data
+# 1.1 Response data in wide format
 GGUM.Data <- c(1,4,4,1,1,1,1,1,1,1,4,1,1,3,1,1,NA,2,NA,3,2,2,2,1,3,2,NA,2,1,1,2,1,NA,NA,NA,1,3,NA,1,2)
 GGUM.Data <- matrix(GGUM.Data,nrow = 10)
 
-# delindex
+# 1.2 A two-row data matrix: the first row is the item number (1,2,3,4...); the second row indicates the signs of delta for each item (-1,0,1,...). For items that have negative deltas for sure, "-1" should be assigned; for items that have positive deltas, "1" should be assigned; for items whose deltas may be either positive or negative (e.g., intermediate items), "0" should assigned. We recommend at least two positive and two negative items per trait for better estimation.
 delindex <- c(1,-1,2,1,3,-1,4,1)
 delindex <- matrix(delindex,nrow = 2)
 
-# ind
+# 1.3 A row vector mapping each item to each trait. For example, c(1,1,1,2,2,2) means that the first 3 items belong to trait 1 and the last 3 items belong to trait 2.
 ind <- c(1,1,2,2)
 ind <- t(ind)
 
-# covariate
+# 1.4 An p*c person covariate matrix where p equals sample size and c equals the number of covariates. The default is NULL, meaning no person covariate.
 covariate <- c(0.70, -1.25, 0.48, -0.47, 0.86, 1.25, 1.17, -1.35, -0.84, -0.55)
 
-# Fit the MGGUM model
+## Step 2: Fit the MGGUM model
 mod <- BMGGUM(GGUM.Data=GGUM.Data, delindex=delindex, trait=2, ind=ind, option=4, model="UM8", covariate=covariate)
 #> [1] "Case 9 was deleted because they endorse the same response option across all items"
 
-# Extract the theta estimates 
+## Step 3: Extract the estimated results 
+# 3.1 Extract the theta estimates 
 theta <- Extract.BMGGUM(x=mod, pars='theta')
 # Turn the theta estimates into p*trait matrix where p equals sample size and trait equals the number of latent traits
 theta <- theta[,1]
@@ -76,17 +78,17 @@ theta <- t(theta)
 # theta estimates in p*trait matrix format
 theta
 #>              [,1]       [,2]
-#>  [1,]  1.02027771  0.1112450
-#>  [2,] -1.50303636 -0.4757993
-#>  [3,] -1.23103651 -0.5853762
-#>  [4,]  0.69315111  0.9592051
-#>  [5,] -0.03894941 -0.7695685
-#>  [6,]  0.15619541 -0.6873740
-#>  [7,]  0.84861339  0.3318221
-#>  [8,]  0.12068104  0.4478592
-#>  [9,]  0.66487328  0.8901462
+#>  [1,]  1.00755202  0.1051978
+#>  [2,] -1.48304663 -0.3815527
+#>  [3,] -1.24215031 -0.5797086
+#>  [4,]  0.66723737  0.9480621
+#>  [5,]  0.09211222 -0.7688336
+#>  [6,]  0.25556022 -0.7676078
+#>  [7,]  0.87850501  0.3453732
+#>  [8,] -0.04140219  0.4592622
+#>  [9,]  0.65549867  0.8783695
 
-# Extract the tau estimates 
+# 3.2 Extract the tau estimates 
 tau <- Extract.BMGGUM(x=mod, pars='tau')
 # Turn the tau estimates into I*(option-1) matrix where I equals the number of items and option equals the number of response options
 tau <- tau[,1]
@@ -95,38 +97,40 @@ tau <- matrix(tau, nrow=3)
 tau <- t(tau)
 # tau estimates in I*(option-1) matrix format
 tau
-#>            [,1]       [,2]       [,3]
-#> [1,] -0.8559964 -1.4779004 -2.3206627
-#> [2,] -1.5405565 -1.8804769 -1.0592084
-#> [3,] -3.1956647 -0.8870041 -0.8631355
-#> [4,] -2.2876189 -1.3062246 -1.0204106
+#>            [,1]      [,2]       [,3]
+#> [1,] -0.8295094 -1.498559 -2.3144571
+#> [2,] -1.5646050 -1.889293 -1.0866118
+#> [3,] -3.2392564 -0.884879 -0.8864353
+#> [4,] -2.3187464 -1.317304 -1.0316517
 
-# Extract the lambda estimates 
+# 3.3 Extract the lambda estimates 
 lambda <- Extract.BMGGUM(x=mod, pars='lambda')
 # lambda[1,1] is the coefficient linking person covariate 1 to latent trait 1
 # lambda[1,2] is the coefficient linking person covariate 1 to latent trait 2
 lambda
 #>                   mean    se_mean        sd       2.5%        50%     97.5%
-#> lambda[1,1]  0.2563650 0.03887061 0.5254527 -0.6997604  0.2333346 1.4214331
-#> lambda[1,2] -0.2542906 0.02739855 0.6164561 -1.5319360 -0.2272128 0.8995756
+#> lambda[1,1]  0.3133386 0.05326958 0.5466074 -0.6521527  0.2707874 1.5867761
+#> lambda[1,2] -0.2758883 0.03527324 0.6619620 -1.8982070 -0.2321969 0.8771598
 #>                n_eff     Rhat
-#> lambda[1,1] 182.7362 1.023394
-#> lambda[1,2] 506.2316 1.000784
+#> lambda[1,1] 105.2913 1.017840
+#> lambda[1,2] 352.1887 1.005127
 
-# Obtain model fit statistic waic 
+## Step 4: Obtain model fit statistics 
 waic <- Modfit.BMGGUM(x=mod, index='waic')
 loo <- Modfit.BMGGUM(mod)
 
-# Obtain the density plots for alpha
+## Step 5: Plottings
+# 5.1 Obtain the density plots for alpha
 Bayesplot.BMGGUM(x=mod, pars='alpha', plot='density', inc_warmup=F)
 ```
 
-<img src="man/figures/README-example-1.png" width="100%" />
+<img src="man/figures/README-example-1.png" width="70%" />
 
 ``` r
 
-# Obtain item plots with ORCs for item 1, 2, 3
+## Step 6: Plotting observable response categories (ORCs) for items
+# 6.1 Obtain item plots with ORCs for item 1, 2, 3
 Itemplot.BMGGUM(x=mod, items = 1:3)
 ```
 
-<img src="man/figures/README-example-2.png" width="100%" />
+<img src="man/figures/README-example-2.png" width="70%" />

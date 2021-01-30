@@ -282,6 +282,7 @@ estimates <- cbind(Alpha_ES, Delta_ES, delindex)
 estimates <- estimates[order(estimates[,8+8+1],decreasing=FALSE),]
 Alpha_ES <- estimates[,1:8]
 Delta_ES <- estimates[,9:16]
+rownames(Alpha_ES) <- c()
 rownames(Delta_ES) <- c()
 delindex1 <- delindex[rep(seq_len(nrow(delindex)), each = (option-1)), ]
 estimates1 <- cbind(Tau_ES, delindex1)
@@ -571,6 +572,7 @@ estimates <- cbind(Alpha_ES, Delta_ES, delindex)
 estimates <- estimates[order(estimates[,8+8+1],decreasing=FALSE),]
 Alpha_ES <- estimates[,1:8]
 Delta_ES <- estimates[,9:16]
+rownames(Alpha_ES) <- c()
 rownames(Delta_ES) <- c()
 delindex1 <- delindex[rep(seq_len(nrow(delindex)), each = (option-1)), ]
 estimates1 <- cbind(Tau_ES, delindex1)
@@ -1390,6 +1392,7 @@ estimates <- cbind(Alpha_ES, Delta_ES, delindex)
 estimates <- estimates[order(estimates[,8+8+1],decreasing=FALSE),]
 Alpha_ES <- estimates[,1:8]
 Delta_ES <- estimates[,9:16]
+rownames(Alpha_ES) <- c()
 rownames(Delta_ES) <- c()
 #change tau estimates to the same number of rows as alpha UM8
 Tau_ES <- Tau_ES[rep(seq_len(nrow(Tau_ES)), nrow(delindex)), ]
@@ -1681,6 +1684,7 @@ estimates <- cbind(Alpha_ES, Delta_ES, delindex)
 estimates <- estimates[order(estimates[,8+8+1],decreasing=FALSE),]
 Alpha_ES <- estimates[,1:8]
 Delta_ES <- estimates[,9:16]
+rownames(Alpha_ES) <- c()
 rownames(Delta_ES) <- c()
 #change tau estimates to the same number of rows as alpha UM8
 Tau_ES <- Tau_ES[rep(seq_len(nrow(Tau_ES)), nrow(delindex)), ]

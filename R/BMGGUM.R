@@ -1824,6 +1824,9 @@ Modfit.BMGGUM <- function(x, index="loo"){
 Bayesplot.BMGGUM <- function(x, pars, plot, inc_warmup=F){
 
   x <- Extract.BMGGUM(x, 'fit')
+  if (pars=="cor"){
+    pars="Cor"
+  }
   if (plot=="trace"){
 
     ret <- rstan::stan_trace(x, pars, inc_warmup = inc_warmup)

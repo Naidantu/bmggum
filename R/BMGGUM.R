@@ -47,8 +47,7 @@ if (option==2){
       for (i in 1:nrow(GGUM.Data)){
         if (colSums(is.na(as.matrix(GGUM.Data[i,])))==(ncol(delindex))-1){
           Valid[i]=1
-        }
-        else{
+        } else{
           Valid[i]<-stats::var(GGUM.Data[i,], na.rm=T)
         }
       }
@@ -97,11 +96,9 @@ if (option==2){
       for (i in 1:(ncol(delindex))){
         if (delindex[2,i]<0){
           ne=ne+1
-        }
-        else if (delindex[2,i]==0){
+        } else if (delindex[2,i]==0){
           nu=nu+1
-        }
-        else if (delindex[2,i]>0){
+        } else if (delindex[2,i]>0){
           po=po+1
         }
       }
@@ -302,17 +299,14 @@ MGGUM.summary<-list(Theta.est=THETA,
                     Data=GGUM.Data,
                     Fit=BZ_BMGGUM,
                     Dimension=dimension)
-    }
-
-    else{
+    } else{
 
   #delete participants that endorse a single option across all items
       Valid <- matrix(NA,nrow=nrow(GGUM.Data),ncol=1)
       for (i in 1:nrow(GGUM.Data)){
         if (colSums(is.na(as.matrix(GGUM.Data[i,])))==(ncol(delindex))-1){
           Valid[i]=1
-        }
-        else{
+        } else{
           Valid[i]<-stats::var(GGUM.Data[i,], na.rm=T)
         }
       }
@@ -366,11 +360,9 @@ MGGUM.summary<-list(Theta.est=THETA,
   for (i in 1:(ncol(delindex))){
     if (delindex[2,i]<0){
       ne=ne+1
-    }
-    else if (delindex[2,i]==0){
+    } else if (delindex[2,i]==0){
       nu=nu+1
-    }
-    else if (delindex[2,i]>0){
+    } else if (delindex[2,i]>0){
       po=po+1
     }
   }
@@ -594,8 +586,7 @@ MGGUM.summary<-list(Theta.est=THETA,
                     Fit=BZ_BMGGUM,
                     Dimension=dimension)
 }
-  }
-  else if (model=="UM4"){
+  } else if (model=="UM4"){
     if (is.null(covariate)){
 
       #delete participants that endorse a single option across all items
@@ -603,8 +594,7 @@ MGGUM.summary<-list(Theta.est=THETA,
       for (i in 1:nrow(GGUM.Data)){
         if (colSums(is.na(as.matrix(GGUM.Data[i,])))==(ncol(delindex))-1){
           Valid[i]=1
-        }
-        else{
+        } else{
           Valid[i]<-stats::var(GGUM.Data[i,], na.rm=T)
         }
       }
@@ -653,11 +643,9 @@ MGGUM.summary<-list(Theta.est=THETA,
       for (i in 1:(ncol(delindex))){
         if (delindex[2,i]<0){
           ne=ne+1
-        }
-        else if (delindex[2,i]==0){
+        } else if (delindex[2,i]==0){
           nu=nu+1
-        }
-        else if (delindex[2,i]>0){
+        } else if (delindex[2,i]>0){
           po=po+1
         }
       }
@@ -859,17 +847,14 @@ MGGUM.summary<-list(Theta.est=THETA,
                     Data=GGUM.Data,
                     Fit=BZ_BMGGUM,
                     Dimension=dimension)
-    }
-
-    else{
+    } else{
 
   #delete participants that endorse a single option across all items
       Valid <- matrix(NA,nrow=nrow(GGUM.Data),ncol=1)
       for (i in 1:nrow(GGUM.Data)){
         if (colSums(is.na(as.matrix(GGUM.Data[i,])))==(ncol(delindex))-1){
           Valid[i]=1
-        }
-        else{
+        } else{
           Valid[i]<-stats::var(GGUM.Data[i,], na.rm=T)
         }
       }
@@ -923,11 +908,9 @@ MGGUM.summary<-list(Theta.est=THETA,
   for (i in 1:(ncol(delindex))){
     if (delindex[2,i]<0){
       ne=ne+1
-    }
-    else if (delindex[2,i]==0){
+    } else if (delindex[2,i]==0){
       nu=nu+1
-    }
-    else if (delindex[2,i]>0){
+    } else if (delindex[2,i]>0){
       po=po+1
     }
   }
@@ -1152,8 +1135,7 @@ MGGUM.summary<-list(Theta.est=THETA,
                     Fit=BZ_BMGGUM,
                     Dimension=dimension)
 }
-  }
-  else if (model=="UM7"){
+  } else if (model=="UM7"){
     if (is.null(covariate)){
 
       #delete participants that endorse a single option across all items
@@ -1161,8 +1143,7 @@ MGGUM.summary<-list(Theta.est=THETA,
       for (i in 1:nrow(GGUM.Data)){
         if (colSums(is.na(as.matrix(GGUM.Data[i,])))==(ncol(delindex))-1){
           Valid[i]=1
-        }
-        else{
+        } else{
           Valid[i]<-stats::var(GGUM.Data[i,], na.rm=T)
         }
       }
@@ -1211,11 +1192,9 @@ MGGUM.summary<-list(Theta.est=THETA,
       for (i in 1:(ncol(delindex))){
         if (delindex[2,i]<0){
           ne=ne+1
-        }
-        else if (delindex[2,i]==0){
+        } else if (delindex[2,i]==0){
           nu=nu+1
-        }
-        else if (delindex[2,i]>0){
+        } else if (delindex[2,i]>0){
           po=po+1
         }
       }
@@ -1414,17 +1393,14 @@ MGGUM.summary<-list(Theta.est=THETA,
                     Data=GGUM.Data,
                     Fit=BZ_BMGGUM,
                     Dimension=dimension)
-    }
-
-    else{
+    } else{
 
   #delete participants that endorse a single option across all items
       Valid <- matrix(NA,nrow=nrow(GGUM.Data),ncol=1)
       for (i in 1:nrow(GGUM.Data)){
         if (colSums(is.na(as.matrix(GGUM.Data[i,])))==(ncol(delindex))-1){
           Valid[i]=1
-        }
-        else{
+        } else{
           Valid[i]<-stats::var(GGUM.Data[i,], na.rm=T)
         }
       }
@@ -1478,11 +1454,9 @@ MGGUM.summary<-list(Theta.est=THETA,
   for (i in 1:(ncol(delindex))){
     if (delindex[2,i]<0){
       ne=ne+1
-    }
-    else if (delindex[2,i]==0){
+    } else if (delindex[2,i]==0){
       nu=nu+1
-    }
-    else if (delindex[2,i]>0){
+    } else if (delindex[2,i]>0){
       po=po+1
     }
   }

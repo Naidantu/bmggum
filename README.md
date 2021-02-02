@@ -27,8 +27,8 @@ the BMGGUM package:
         GGUM with equal taus across items.
 4.  Five functions (i.e., BMGGUM(), Extract.BMGGUM(), Modfit.BMGGUM(),
     Bayesplot.BMGGUM(), and Itemplot.BMGGUM()) are provided for model
-    estimation, results extraction, model fit examination (e.g.,WAIC,
-    loo), and plottings, respectively.
+    estimation, results extraction, model fit examination (e.g.,waic,
+    loo, Chi-square/df ratio), and plottings, respectively.
 
 ## Installation
 
@@ -78,15 +78,15 @@ theta <- t(theta)
 # theta estimates in p*trait matrix format
 theta
 #>              [,1]       [,2]
-#>  [1,]  1.00755202  0.1051978
-#>  [2,] -1.48304663 -0.3815527
-#>  [3,] -1.24215031 -0.5797086
-#>  [4,]  0.66723737  0.9480621
-#>  [5,]  0.09211222 -0.7688336
-#>  [6,]  0.25556022 -0.7676078
-#>  [7,]  0.87850501  0.3453732
-#>  [8,] -0.04140219  0.4592622
-#>  [9,]  0.65549867  0.8783695
+#>  [1,]  1.02827165  0.1383072
+#>  [2,] -1.48966211 -0.4879501
+#>  [3,] -1.23199246 -0.5386983
+#>  [4,]  0.72273151  0.9077001
+#>  [5,] -0.07190353 -0.7465508
+#>  [6,]  0.01017143 -0.7285008
+#>  [7,]  0.74872975  0.3503585
+#>  [8,]  0.14404169  0.3832711
+#>  [9,]  0.67153177  0.7799127
 
 # 3.2 Extract the tau estimates 
 tau <- Extract.BMGGUM(x=mod, pars='tau')
@@ -98,10 +98,10 @@ tau <- t(tau)
 # tau estimates in I*(option-1) matrix format
 tau
 #>            [,1]      [,2]       [,3]
-#> [1,] -0.8295094 -1.498559 -2.3144571
-#> [2,] -1.5646050 -1.889293 -1.0866118
-#> [3,] -3.2392564 -0.884879 -0.8864353
-#> [4,] -2.3187464 -1.317304 -1.0316517
+#> [1,] -0.8525584 -1.515381 -2.2622210
+#> [2,] -1.5350442 -1.914934 -1.1046813
+#> [3,] -3.1848261 -0.864112 -0.8484167
+#> [4,] -2.3081667 -1.308957 -1.0176210
 
 # 3.3 Extract the lambda estimates 
 lambda <- Extract.BMGGUM(x=mod, pars='lambda')
@@ -109,11 +109,11 @@ lambda <- Extract.BMGGUM(x=mod, pars='lambda')
 # lambda[1,2] is the coefficient linking person covariate 1 to latent trait 2
 lambda
 #>                   mean    se_mean        sd       2.5%        50%     97.5%
-#> lambda[1,1]  0.3133386 0.05326958 0.5466074 -0.6521527  0.2707874 1.5867761
-#> lambda[1,2] -0.2758883 0.03527324 0.6619620 -1.8982070 -0.2321969 0.8771598
-#>                n_eff     Rhat
-#> lambda[1,1] 105.2913 1.017840
-#> lambda[1,2] 352.1887 1.005127
+#> lambda[1,1]  0.2218955 0.06258234 0.5560846 -0.9870707  0.2492191 1.2429283
+#> lambda[1,2] -0.2271798 0.03954914 0.6507959 -1.6141768 -0.2199205 0.9996559
+#>                 n_eff     Rhat
+#> lambda[1,1]  78.95472 1.039613
+#> lambda[1,2] 270.77932 1.015689
 
 ## Step 4: Obtain model fit statistics 
 waic <- Modfit.BMGGUM(x=mod, index='waic')

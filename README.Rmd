@@ -27,7 +27,7 @@ The goal of BMGGUM is to estimate Multidimensional Generalized Graded Unfolding 
     * UM8: The Generalized Graded Unfolding Model (GGUM).
     * UM4: The Partial Credit Unfolding Model, which is the GGUM with all alphas constrained to 1.
     * UM7: The Generalized Rating Scale Unfolding Model, which is the GGUM with equal taus across items.
-4. Five functions (i.e., BMGGUM(), Extract.BMGGUM(), Modfit.BMGGUM(), Bayesplot.BMGGUM(), and Itemplot.BMGGUM()) are provided for model estimation, results extraction, model fit examination (e.g.,waic, loo, Chi-square/df ratio), and plottings, respectively.
+4. Five functions (i.e., BMGGUM(), Extract.BMGGUM(), Modfit.BMGGUM(), Bayesplot.BMGGUM(), and Itemplot.BMGGUM()) are provided for model estimation, results extraction, model fit examination (e.g.,waic, loo, Chisq/df), and plottings, respectively.
 
 ## Installation
 

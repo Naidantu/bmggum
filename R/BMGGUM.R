@@ -1,4 +1,4 @@
-#' @title Bayesian Multidimensional Generalized Graded Unfolding Model (BMGGUM)
+#' @title Bayesian Multidimensional Generalized Graded Unfolding Model (bmggum)
 #' @description This function implements full Bayesian estimation of Multidimensional Generalized Graded Unfolding Model (MGGUM) using rstan
 #' @param GGUM.Data Response data in wide format
 #' @param delindex A two-row data matrix: the first row is the item number (1,2,3,4...); the second row indicates the signs of delta for each item (-1,0,1,...). For items that have negative deltas for sure, "-1" should be assigned; for items that have positive deltas, "1" should be assigned; for items whose deltas may be either positive or negative (e.g., intermediate items), "0" should assigned. We recommend at least two positive and two negative items per trait for better estimation.
@@ -26,9 +26,9 @@
 #' @return Result object that stores information including the (1)stanfit object, (2)estimated item parameters, (3)estimated person parameters, (4)correlations among traits, (5)regression coefficients linking person covariates to each trait, (6)response data (excluding respondents who endorse a single option across all items), and (7)the input row vector mapping each item to each trait. Note that when covariates are included, output (4) represents residual correlations among the traits after controlling for the covariates.
 #' @examples
 #' \dontrun{
-#' mod <- BMGGUM(GGUM.Data, delindex, trait, ind, covariate, option)}
+#' mod <- bmggum(GGUM.Data, delindex, trait, ind, covariate, option)}
 #' @export
-BMGGUM <- function(GGUM.Data, delindex, trait, ind, option, model="UM8", covariate=NULL, iter=1000, chains=3,
+bmggum <- function(GGUM.Data, delindex, trait, ind, option, model="UM8", covariate=NULL, iter=1000, chains=3,
                    warmup=floor(iter/2), adapt_delta=0.90, max_treedepth=15, init="random", thin=1, cores=2,
                    ma=0, va=0.5, mdne=-1, mdnu=0, mdpo=1, vd=1, mt=seq(-3,0,3/(option-1)), vt=2){
 
@@ -136,7 +136,7 @@ if (option==2){
       #                                                     #
       #######################################################
       #######################################################
-      BZ_BMGGUM<-'
+      BZ_bmggum<-'
 
 functions {
 
@@ -261,17 +261,17 @@ Cor=multiply_lower_tri_self_transpose(L_Omega);
 
 rstan::rstan_options(auto_write = TRUE,javascript = FALSE)
 
-BZ_BMGGUM<-rstan::stan(model_code=BZ_BMGGUM,data=data_list,
+BZ_bmggum<-rstan::stan(model_code=BZ_bmggum,data=data_list,
                        iter=iter, chains=chains,cores=cores, warmup=warmup,
                        init=init, thin=thin,
                        control=list(adapt_delta=adapt_delta,max_treedepth=max_treedepth))
 
 #####Extract some parameters
-THETA<-rstan::summary(BZ_BMGGUM, pars = c("theta"), probs = c(0.025,0.5,0.975))$summary
-Alpha_ES<-rstan::summary(BZ_BMGGUM, pars = c("alpha"), probs = c(0.025,0.5,0.975))$summary
-Delta_ES<-rstan::summary(BZ_BMGGUM, pars = c("delta"), probs = c(0.025, 0.5,0.975))$summary
-Tau_ES<-rstan::summary(BZ_BMGGUM, pars = c("tau_raw"), probs = c(0.025, 0.5,0.975))$summary
-Cor_ES<-rstan::summary(BZ_BMGGUM, pars = c("Cor"), probs = c(0.025, 0.5,0.975))$summary
+THETA<-rstan::summary(BZ_bmggum, pars = c("theta"), probs = c(0.025,0.5,0.975))$summary
+Alpha_ES<-rstan::summary(BZ_bmggum, pars = c("alpha"), probs = c(0.025,0.5,0.975))$summary
+Delta_ES<-rstan::summary(BZ_bmggum, pars = c("delta"), probs = c(0.025, 0.5,0.975))$summary
+Tau_ES<-rstan::summary(BZ_bmggum, pars = c("tau_raw"), probs = c(0.025, 0.5,0.975))$summary
+Cor_ES<-rstan::summary(BZ_bmggum, pars = c("Cor"), probs = c(0.025, 0.5,0.975))$summary
 
 #####reorder item parameters and data to the original input data order
 delindex <- t(delindex)
@@ -297,7 +297,7 @@ MGGUM.summary<-list(Theta.est=THETA,
                     Tau.est=Tau_ES,
                     Cor.est=Cor_ES,
                     Data=GGUM.Data,
-                    Fit=BZ_BMGGUM,
+                    Fit=BZ_bmggum,
                     Dimension=dimension)
     } else{
 
@@ -406,7 +406,7 @@ MGGUM.summary<-list(Theta.est=THETA,
   #                                                     #
   #######################################################
   #######################################################
-  BZ_BMGGUM<-'
+  BZ_bmggum<-'
 
 functions {
 
@@ -545,18 +545,18 @@ Cor=multiply_lower_tri_self_transpose(L_Omega);
 
 rstan::rstan_options(auto_write = TRUE,javascript = FALSE)
 
-BZ_BMGGUM<-rstan::stan(model_code=BZ_BMGGUM,data=data_list,
+BZ_bmggum<-rstan::stan(model_code=BZ_bmggum,data=data_list,
                        iter=iter, chains=chains,cores=cores, warmup=warmup,
                        init=init, thin=thin,
                        control=list(adapt_delta=adapt_delta,max_treedepth=max_treedepth))
 
 #####Extract some parameters
-THETA<-rstan::summary(BZ_BMGGUM, pars = c("theta"), probs = c(0.025,0.5,0.975))$summary
-Alpha_ES<-rstan::summary(BZ_BMGGUM, pars = c("alpha"), probs = c(0.025,0.5,0.975))$summary
-Delta_ES<-rstan::summary(BZ_BMGGUM, pars = c("delta"), probs = c(0.025, 0.5,0.975))$summary
-Tau_ES<-rstan::summary(BZ_BMGGUM, pars = c("tau_raw"), probs = c(0.025, 0.5,0.975))$summary
-Cor_ES<-rstan::summary(BZ_BMGGUM, pars = c("Cor"), probs = c(0.025, 0.5,0.975))$summary
-Lamda_ES<-rstan::summary(BZ_BMGGUM, pars = c("lambda"), probs = c(0.025, 0.5,0.975))$summary
+THETA<-rstan::summary(BZ_bmggum, pars = c("theta"), probs = c(0.025,0.5,0.975))$summary
+Alpha_ES<-rstan::summary(BZ_bmggum, pars = c("alpha"), probs = c(0.025,0.5,0.975))$summary
+Delta_ES<-rstan::summary(BZ_bmggum, pars = c("delta"), probs = c(0.025, 0.5,0.975))$summary
+Tau_ES<-rstan::summary(BZ_bmggum, pars = c("tau_raw"), probs = c(0.025, 0.5,0.975))$summary
+Cor_ES<-rstan::summary(BZ_bmggum, pars = c("Cor"), probs = c(0.025, 0.5,0.975))$summary
+Lamda_ES<-rstan::summary(BZ_bmggum, pars = c("lambda"), probs = c(0.025, 0.5,0.975))$summary
 
 #####reorder item parameters and data to the original input data order
 delindex <- t(delindex)
@@ -583,7 +583,7 @@ MGGUM.summary<-list(Theta.est=THETA,
                     Cor.est=Cor_ES,
                     Lamda.est=Lamda_ES,
                     Data=GGUM.Data,
-                    Fit=BZ_BMGGUM,
+                    Fit=BZ_bmggum,
                     Dimension=dimension)
 }
   } else if (model=="UM4"){
@@ -683,7 +683,7 @@ MGGUM.summary<-list(Theta.est=THETA,
       #                                                     #
       #######################################################
       #######################################################
-      BZ_BMGGUM<-'
+      BZ_bmggum<-'
 
 functions {
 
@@ -808,17 +808,17 @@ Cor=multiply_lower_tri_self_transpose(L_Omega);
 
 rstan::rstan_options(auto_write = TRUE,javascript = FALSE)
 
-BZ_BMGGUM<-rstan::stan(model_code=BZ_BMGGUM,data=data_list,
+BZ_bmggum<-rstan::stan(model_code=BZ_bmggum,data=data_list,
                        iter=iter, chains=chains,cores=cores, warmup=warmup,
                        init=init, thin=thin,
                        control=list(adapt_delta=adapt_delta,max_treedepth=max_treedepth))
 
 #####Extract some parameters
-THETA<-rstan::summary(BZ_BMGGUM, pars = c("theta"), probs = c(0.025,0.5,0.975))$summary
-#Alpha_ES<-rstan::summary(BZ_BMGGUM, pars = c("alpha"), probs = c(0.025,0.5,0.975))$summary
-Delta_ES<-rstan::summary(BZ_BMGGUM, pars = c("delta"), probs = c(0.025, 0.5,0.975))$summary
-Tau_ES<-rstan::summary(BZ_BMGGUM, pars = c("tau_raw"), probs = c(0.025, 0.5,0.975))$summary
-Cor_ES<-rstan::summary(BZ_BMGGUM, pars = c("Cor"), probs = c(0.025, 0.5,0.975))$summary
+THETA<-rstan::summary(BZ_bmggum, pars = c("theta"), probs = c(0.025,0.5,0.975))$summary
+#Alpha_ES<-rstan::summary(BZ_bmggum, pars = c("alpha"), probs = c(0.025,0.5,0.975))$summary
+Delta_ES<-rstan::summary(BZ_bmggum, pars = c("delta"), probs = c(0.025, 0.5,0.975))$summary
+Tau_ES<-rstan::summary(BZ_bmggum, pars = c("tau_raw"), probs = c(0.025, 0.5,0.975))$summary
+Cor_ES<-rstan::summary(BZ_bmggum, pars = c("Cor"), probs = c(0.025, 0.5,0.975))$summary
 Alpha_ES<-rep(1, ncol(delindex))
 Alpha_ES <- as.matrix(Alpha_ES)
 
@@ -845,7 +845,7 @@ MGGUM.summary<-list(Theta.est=THETA,
                     Tau.est=Tau_ES,
                     Cor.est=Cor_ES,
                     Data=GGUM.Data,
-                    Fit=BZ_BMGGUM,
+                    Fit=BZ_bmggum,
                     Dimension=dimension)
     } else{
 
@@ -954,7 +954,7 @@ MGGUM.summary<-list(Theta.est=THETA,
   #                                                     #
   #######################################################
   #######################################################
-  BZ_BMGGUM<-'
+  BZ_bmggum<-'
 
 functions {
 
@@ -1093,18 +1093,18 @@ Cor=multiply_lower_tri_self_transpose(L_Omega);
 
 rstan::rstan_options(auto_write = TRUE,javascript = FALSE)
 
-BZ_BMGGUM<-rstan::stan(model_code=BZ_BMGGUM,data=data_list,
+BZ_bmggum<-rstan::stan(model_code=BZ_bmggum,data=data_list,
                        iter=iter, chains=chains,cores=cores, warmup=warmup,
                        init=init, thin=thin,
                        control=list(adapt_delta=adapt_delta,max_treedepth=max_treedepth))
 
 #####Extract some parameters
-THETA<-rstan::summary(BZ_BMGGUM, pars = c("theta"), probs = c(0.025,0.5,0.975))$summary
-#Alpha_ES<-rstan::summary(BZ_BMGGUM, pars = c("alpha"), probs = c(0.025,0.5,0.975))$summary
-Delta_ES<-rstan::summary(BZ_BMGGUM, pars = c("delta"), probs = c(0.025, 0.5,0.975))$summary
-Tau_ES<-rstan::summary(BZ_BMGGUM, pars = c("tau_raw"), probs = c(0.025, 0.5,0.975))$summary
-Cor_ES<-rstan::summary(BZ_BMGGUM, pars = c("Cor"), probs = c(0.025, 0.5,0.975))$summary
-Lamda_ES<-rstan::summary(BZ_BMGGUM, pars = c("lambda"), probs = c(0.025, 0.5,0.975))$summary
+THETA<-rstan::summary(BZ_bmggum, pars = c("theta"), probs = c(0.025,0.5,0.975))$summary
+#Alpha_ES<-rstan::summary(BZ_bmggum, pars = c("alpha"), probs = c(0.025,0.5,0.975))$summary
+Delta_ES<-rstan::summary(BZ_bmggum, pars = c("delta"), probs = c(0.025, 0.5,0.975))$summary
+Tau_ES<-rstan::summary(BZ_bmggum, pars = c("tau_raw"), probs = c(0.025, 0.5,0.975))$summary
+Cor_ES<-rstan::summary(BZ_bmggum, pars = c("Cor"), probs = c(0.025, 0.5,0.975))$summary
+Lamda_ES<-rstan::summary(BZ_bmggum, pars = c("lambda"), probs = c(0.025, 0.5,0.975))$summary
 Alpha_ES<-rep(1, ncol(delindex))
 Alpha_ES <- as.matrix(Alpha_ES)
 
@@ -1132,7 +1132,7 @@ MGGUM.summary<-list(Theta.est=THETA,
                     Cor.est=Cor_ES,
                     Lamda.est=Lamda_ES,
                     Data=GGUM.Data,
-                    Fit=BZ_BMGGUM,
+                    Fit=BZ_bmggum,
                     Dimension=dimension)
 }
   } else if (model=="UM7"){
@@ -1232,7 +1232,7 @@ MGGUM.summary<-list(Theta.est=THETA,
       #                                                     #
       #######################################################
       #######################################################
-      BZ_BMGGUM<-'
+      BZ_bmggum<-'
 
 functions {
 
@@ -1353,17 +1353,17 @@ Cor=multiply_lower_tri_self_transpose(L_Omega);
 
 rstan::rstan_options(auto_write = TRUE,javascript = FALSE)
 
-BZ_BMGGUM<-rstan::stan(model_code=BZ_BMGGUM,data=data_list,
+BZ_bmggum<-rstan::stan(model_code=BZ_bmggum,data=data_list,
                        iter=iter, chains=chains,cores=cores, warmup=warmup,
                        init=init, thin=thin,
                        control=list(adapt_delta=adapt_delta,max_treedepth=max_treedepth))
 
 #####Extract some parameters
-THETA<-rstan::summary(BZ_BMGGUM, pars = c("theta"), probs = c(0.025,0.5,0.975))$summary
-Alpha_ES<-rstan::summary(BZ_BMGGUM, pars = c("alpha"), probs = c(0.025,0.5,0.975))$summary
-Delta_ES<-rstan::summary(BZ_BMGGUM, pars = c("delta"), probs = c(0.025, 0.5,0.975))$summary
-Tau_ES<-rstan::summary(BZ_BMGGUM, pars = c("tau_raw"), probs = c(0.025, 0.5,0.975))$summary
-Cor_ES<-rstan::summary(BZ_BMGGUM, pars = c("Cor"), probs = c(0.025, 0.5,0.975))$summary
+THETA<-rstan::summary(BZ_bmggum, pars = c("theta"), probs = c(0.025,0.5,0.975))$summary
+Alpha_ES<-rstan::summary(BZ_bmggum, pars = c("alpha"), probs = c(0.025,0.5,0.975))$summary
+Delta_ES<-rstan::summary(BZ_bmggum, pars = c("delta"), probs = c(0.025, 0.5,0.975))$summary
+Tau_ES<-rstan::summary(BZ_bmggum, pars = c("tau_raw"), probs = c(0.025, 0.5,0.975))$summary
+Cor_ES<-rstan::summary(BZ_bmggum, pars = c("Cor"), probs = c(0.025, 0.5,0.975))$summary
 
 #####reorder item parameters and data to the original input data order
 delindex <- t(delindex)
@@ -1391,7 +1391,7 @@ MGGUM.summary<-list(Theta.est=THETA,
                     Tau.est=Tau_ES,
                     Cor.est=Cor_ES,
                     Data=GGUM.Data,
-                    Fit=BZ_BMGGUM,
+                    Fit=BZ_bmggum,
                     Dimension=dimension)
     } else{
 
@@ -1500,7 +1500,7 @@ MGGUM.summary<-list(Theta.est=THETA,
   #                                                     #
   #######################################################
   #######################################################
-  BZ_BMGGUM<-'
+  BZ_bmggum<-'
 
 functions {
 
@@ -1639,18 +1639,18 @@ Cor=multiply_lower_tri_self_transpose(L_Omega);
 
 rstan::rstan_options(auto_write = TRUE,javascript = FALSE)
 
-BZ_BMGGUM<-rstan::stan(model_code=BZ_BMGGUM,data=data_list,
+BZ_bmggum<-rstan::stan(model_code=BZ_bmggum,data=data_list,
                        iter=iter, chains=chains,cores=cores, warmup=warmup,
                        init=init, thin=thin,
                        control=list(adapt_delta=adapt_delta,max_treedepth=max_treedepth))
 
 #####Extract some parameters
-THETA<-rstan::summary(BZ_BMGGUM, pars = c("theta"), probs = c(0.025,0.5,0.975))$summary
-Alpha_ES<-rstan::summary(BZ_BMGGUM, pars = c("alpha"), probs = c(0.025,0.5,0.975))$summary
-Delta_ES<-rstan::summary(BZ_BMGGUM, pars = c("delta"), probs = c(0.025, 0.5,0.975))$summary
-Tau_ES<-rstan::summary(BZ_BMGGUM, pars = c("tau_raw"), probs = c(0.025, 0.5,0.975))$summary
-Cor_ES<-rstan::summary(BZ_BMGGUM, pars = c("Cor"), probs = c(0.025, 0.5,0.975))$summary
-Lamda_ES<-rstan::summary(BZ_BMGGUM, pars = c("lambda"), probs = c(0.025, 0.5,0.975))$summary
+THETA<-rstan::summary(BZ_bmggum, pars = c("theta"), probs = c(0.025,0.5,0.975))$summary
+Alpha_ES<-rstan::summary(BZ_bmggum, pars = c("alpha"), probs = c(0.025,0.5,0.975))$summary
+Delta_ES<-rstan::summary(BZ_bmggum, pars = c("delta"), probs = c(0.025, 0.5,0.975))$summary
+Tau_ES<-rstan::summary(BZ_bmggum, pars = c("tau_raw"), probs = c(0.025, 0.5,0.975))$summary
+Cor_ES<-rstan::summary(BZ_bmggum, pars = c("Cor"), probs = c(0.025, 0.5,0.975))$summary
+Lamda_ES<-rstan::summary(BZ_bmggum, pars = c("lambda"), probs = c(0.025, 0.5,0.975))$summary
 
 #####reorder item parameters and data to the original input data order
 delindex <- t(delindex)
@@ -1679,7 +1679,7 @@ MGGUM.summary<-list(Theta.est=THETA,
                     Cor.est=Cor_ES,
                     Lamda.est=Lamda_ES,
                     Data=GGUM.Data,
-                    Fit=BZ_BMGGUM,
+                    Fit=BZ_bmggum,
                     Dimension=dimension)
 }
   }
@@ -1688,20 +1688,20 @@ return(MGGUM.summary)
 }
 
 
-#' @title BMGGUM results extraction
-#' @description This function extracts BMGGUM estimation results.
-#' @param x BMGGUM returned object
+#' @title bmggum results extraction
+#' @description This function extracts bmggum estimation results.
+#' @param x bmggum returned object
 #' @param pars Names of extracted parameters. They can be "theta" (Person trait estimates), "alpha" (Item discrimination parameters), "delta" (Item location parameters), "tau" (Item threshold parameters), "cor" (Correlations among latent traits), "lambda" (Regression coefficients linking person covariates to latent traits), "data" (GGUM.Data after deleting respondents who endorse the same response options across all items), "fit" (The stanfit object), and "dimension" (The input row vector mapping each item to each trait). Note that when the model is UM4 in which alpha is fixed to 1, the extracted alpha is a n*1 matrix where n equals to the number of items.
 #' @return Selected results output
 #' @examples
 #' \dontrun{
-#' theta <- Extract.BMGGUM(mod, 'theta')
-#' alpha <- Extract.BMGGUM(mod, 'alpha')
-#' cor <- Extract.BMGGUM(mod, 'cor')
-#' data <- Extract.BMGGUM(mod, 'data')
-#' mod <- BMGGUM(GGUM.Data, delindex, trait, ind, covariate, option)}
+#' theta <- extract.bmggum(mod, 'theta')
+#' alpha <- extract.bmggum(mod, 'alpha')
+#' cor <- extract.bmggum(mod, 'cor')
+#' data <- extract.bmggum(mod, 'data')
+#' mod <- bmggum(GGUM.Data, delindex, trait, ind, covariate, option)}
 #' @export
-Extract.BMGGUM <- function(x, pars){
+extract.bmggum <- function(x, pars){
 
   ret <- switch(pars,
                 theta=x[["Theta.est"]],
@@ -1718,17 +1718,17 @@ Extract.BMGGUM <- function(x, pars){
 }
 
 
-#' @title BMGGUM Model fit
+#' @title bmggum Model fit
 #' @description This function provides model fit statistics.
-#' @param x BMGGUM returned object
+#' @param x bmggum returned object
 #' @param index Model fit indices. They can be "waic", which is the widely applicable information criterion, "loo", which is the leave-one-out cross-validation, or "chisq.df", which is the adjusted chi-square degrees of freedom ratios for each trait separately that were introduced by Drasgow et al.(1995). The default is loo. Note that chisq.df can only be computed when the sample size is large. See documentation for loo and GGUM for more details.
 #' @return Selected model fit statistics
 #' @examples
 #' \dontrun{
-#' waic <- Modfit.BMGGUM(mod, 'waic')
-#' loocv <- Modfit.BMGGUM(mod, 'loo')
-#' chisq.df <- Modfit.BMGGUM(mod, 'chisq.df')
-#' mod <- BMGGUM(GGUM.Data, delindex, trait, ind, covariate, option)}
+#' waic <- modfit.bmggum(mod, 'waic')
+#' loocv <- modfit.bmggum(mod, 'loo')
+#' chisq.df <- modfit.bmggum(mod, 'chisq.df')
+#' mod <- bmggum(GGUM.Data, delindex, trait, ind, covariate, option)}
 #' @export
 Modfit.BMGGUM <- function(x, index="loo"){
 

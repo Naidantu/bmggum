@@ -28,7 +28,7 @@ the BMGGUM package:
 4.  Five functions (i.e., BMGGUM(), Extract.BMGGUM(), Modfit.BMGGUM(),
     Bayesplot.BMGGUM(), and Itemplot.BMGGUM()) are provided for model
     estimation, results extraction, model fit examination (e.g.,waic,
-    loo, Chi-square/df ratio), and plottings, respectively.
+    loo, Chisq/df), and plottings, respectively.
 
 ## Installation
 

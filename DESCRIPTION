@@ -1,4 +1,4 @@
-Package: BMGGUM
+Package: bmggum
 Title: Bayesian Multidimensional Generalized Graded Unfolding Model (MGGUM) Estimation
 Version: 0.0.0.9000
 Date: 2020-12-31
@@ -29,5 +29,5 @@ Suggests:
     knitr,
     rmarkdown
 VignetteBuilder: knitr
-URL: https://github.com/Naidantu/BMGGUM
-BugReports: https://github.com/Naidantu/BMGGUM/issues
+URL: https://github.com/Naidantu/bmggum
+BugReports: https://github.com/Naidantu/bmggum/issues

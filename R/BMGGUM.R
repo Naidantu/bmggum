@@ -1730,20 +1730,20 @@ extract.bmggum <- function(x, pars){
 #' chisq.df <- modfit.bmggum(mod, 'chisq.df')
 #' mod <- bmggum(GGUM.Data, delindex, trait, ind, covariate, option)}
 #' @export
-Modfit.BMGGUM <- function(x, index="loo"){
+modfit.bmggum <- function(x, index="loo"){
 
-  x1 <- Extract.BMGGUM(x, 'fit')
+  x1 <- extract.bmggum(x, 'fit')
   log_lik=loo::extract_log_lik(x1, merge_chains = FALSE)
   rel_n_eff=loo::relative_eff(exp(log_lik))
 
   if (index=="chisq.df"){
-    dimension <- Extract.BMGGUM(x, 'dimension')
-    data <- Extract.BMGGUM(x, 'data')-1
-    tau <- Extract.BMGGUM(x, 'tau')
+    dimension <- extract.bmggum(x, 'dimension')
+    data <- extract.bmggum(x, 'data')-1
+    tau <- extract.bmggum(x, 'tau')
     tau <- tau[,1]
-    alpha <- Extract.BMGGUM(x, pars='alpha')
+    alpha <- extract.bmggum(x, pars='alpha')
     alpha <- alpha[,1]
-    delta <- Extract.BMGGUM(x, pars='delta')
+    delta <- extract.bmggum(x, pars='delta')
     delta <- delta[,1]
     C <- length(tau)/length(delta)  #response options = C+1
     I <- length(alpha)
@@ -1785,23 +1785,23 @@ Modfit.BMGGUM <- function(x, index="loo"){
 }
 
 
-#' @title BMGGUM bayesian convergence diagnosis plotting function
+#' @title bmggum bayesian convergence diagnosis plotting function
 #' @description This function provides plots including density plots, trace plots, and auto-correlation plots to aid model convergence diagnosis.
-#' @param x BMGGUM returned object
-#' @param pars Names of plotted parameters. They can be "theta", "alpha", "delta", "tau", "cor", "lambda", or a subset of parameters. See vignette for BMGGUM for more details.
+#' @param x bmggum returned object
+#' @param pars Names of plotted parameters. They can be "theta", "alpha", "delta", "tau", "cor", "lambda", or a subset of parameters. See vignette for bmggum for more details.
 #' @param plot Types of plots.They can be "density", "trace", or "autocorrelation".
 #' @param inc_warmup Whether to include warmup iterations or not when plotting. The default is FALSE.
 #' @return Selected plots for selected parameters
 #' @examples
 #' \dontrun{
-#' Bayesplot.BMGGUM(mod, 'alpha', 'density', inc_warmup=T)
-#' Bayesplot.BMGGUM(mod, 'delta', 'trace', inc_warmup=F)
-#' Bayesplot.BMGGUM(mod, 'tau', 'autocorrelation', inc_warmup=T)
-#' mod <- BMGGUM(GGUM.Data, delindex, trait, ind, covariate, option)}
+#' bayesplot.bmggum(mod, 'alpha', 'density', inc_warmup=T)
+#' bayesplot.bmggum(mod, 'delta', 'trace', inc_warmup=F)
+#' bayesplot.bmggum(mod, 'tau', 'autocorrelation', inc_warmup=T)
+#' mod <- bmggum(GGUM.Data, delindex, trait, ind, covariate, option)}
 #' @export
-Bayesplot.BMGGUM <- function(x, pars, plot, inc_warmup=F){
+bayesplot.bmggum <- function(x, pars, plot, inc_warmup=F){
 
-  x <- Extract.BMGGUM(x, 'fit')
+  x <- extract.bmggum(x, 'fit')
   if (pars=="cor"){
     pars="Cor"
   }
@@ -1824,17 +1824,17 @@ Bayesplot.BMGGUM <- function(x, pars, plot, inc_warmup=F){
 }
 
 
-#' @title BMGGUM item plotting function including observable response categories (ORCs)
+#' @title bmggum item plotting function including observable response categories (ORCs)
 #' @description This function provides item plots including observable response categories plots.
-#' @param x BMGGUM returned object
+#' @param x bmggum returned object
 #' @param items The items to be plotted. The default is all the items.
 #' @return Selected ORC plots for selected items
 #' @examples
 #' \dontrun{
-#' Itemplot.BMGGUM(mod, items=1:5)
-#' mod <- BMGGUM(GGUM.Data, delindex, trait, ind, covariate, option)}
+#' itemplot.bmggum(mod, items=1:5)
+#' mod <- bmggum(GGUM.Data, delindex, trait, ind, covariate, option)}
 #' @export
-Itemplot.BMGGUM <- function(x, items=NULL){
+itemplot.bmggum <- function(x, items=NULL){
 
   Pr.GGUM <- function(theta, alpha, delta, tau) {# ATTENTION! The first tau is always fixed to zero and has to be input into the tau vector.
 
@@ -1855,11 +1855,11 @@ Itemplot.BMGGUM <- function(x, items=NULL){
     return(Prob.New)
   }
 
-  alpha <- Extract.BMGGUM(x, pars='alpha')
-  delta <- Extract.BMGGUM(x, pars='delta')
+  alpha <- extract.bmggum(x, pars='alpha')
+  delta <- extract.bmggum(x, pars='delta')
   alpha <- alpha[,1]
   delta <- delta[,1]
-  tau <- Extract.BMGGUM(x, pars='tau')
+  tau <- extract.bmggum(x, pars='tau')
   tau <- tau[,1]
   C <- length(tau)/length(alpha)  #response options = C+1
   I <- length(alpha)

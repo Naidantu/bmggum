@@ -1,17 +1,17 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# BMGGUM
+# bmggum
 
 <!-- badges: start -->
 
 <!-- badges: end -->
 
-The goal of BMGGUM is to estimate Multidimensional Generalized Graded
+The goal of bmggum is to estimate Multidimensional Generalized Graded
 Unfolding Model (MGGUM) using Bayesian method. Specifically,the R
 package **rstan** that utilizes the Hamiltonian Monte Carlo sampling
 algorithm was used for estimation. Below are some important features of
-the BMGGUM package:
+the bmggum package:
 
 1.  Allows users to incorporate person covariates (e.g., age, gender,
     education) into the estimation to improve estimation accuracy.
@@ -25,17 +25,17 @@ the BMGGUM package:
         all alphas constrained to 1.
       - UM7: The Generalized Rating Scale Unfolding Model, which is the
         GGUM with equal taus across items.
-4.  Five functions (i.e., BMGGUM(), Extract.BMGGUM(), Modfit.BMGGUM(),
-    Bayesplot.BMGGUM(), and Itemplot.BMGGUM()) are provided for model
+4.  Five functions (i.e., bmggum(), extract.bmggum(), modfit.bmggum(),
+    bayesplot.bmggum(), and itemplot.bmggum()) are provided for model
     estimation, results extraction, model fit examination (e.g.,waic,
     loo, Chisq/df), and plottings, respectively.
 
 ## Installation
 
-You can install the development version of BMGGUM from GitHub:
+You can install the development version of bmggum from GitHub:
 
 ``` r
-devtools::install_github("Naidantu/BMGGUM")
+devtools::install_github("Naidantu/bmggum")
 ```
 
 ## Example
@@ -44,7 +44,7 @@ This is a basic example which shows you how to prepare data, fit the
 model, extract and plot results.
 
 ``` r
-library(BMGGUM)
+library(bmggum)
 
 ## basic example code
 ## Step 1: Input data
@@ -64,12 +64,12 @@ ind <- t(ind)
 covariate <- c(0.70, -1.25, 0.48, -0.47, 0.86, 1.25, 1.17, -1.35, -0.84, -0.55)
 
 ## Step 2: Fit the MGGUM model
-mod <- BMGGUM(GGUM.Data=GGUM.Data, delindex=delindex, trait=2, ind=ind, option=4, model="UM8", covariate=covariate)
+mod <- bmggum(GGUM.Data=GGUM.Data, delindex=delindex, trait=2, ind=ind, option=4, model="UM8", covariate=covariate)
 #> [1] "Case 9 was deleted because they endorse the same response option across all items"
 
 ## Step 3: Extract the estimated results 
 # 3.1 Extract the theta estimates 
-theta <- Extract.BMGGUM(x=mod, pars='theta')
+theta <- extract.bmggum(x=mod, pars='theta')
 # Turn the theta estimates into p*trait matrix where p equals sample size and trait equals the number of latent traits
 theta <- theta[,1]
 # nrow=trait
@@ -89,7 +89,7 @@ theta
 #>  [9,]  0.67153177  0.7799127
 
 # 3.2 Extract the tau estimates 
-tau <- Extract.BMGGUM(x=mod, pars='tau')
+tau <- extract.bmggum(x=mod, pars='tau')
 # Turn the tau estimates into I*(option-1) matrix where I equals the number of items and option equals the number of response options
 tau <- tau[,1]
 # nrow=option-1
@@ -104,7 +104,7 @@ tau
 #> [4,] -2.3081667 -1.308957 -1.0176210
 
 # 3.3 Extract the lambda estimates 
-lambda <- Extract.BMGGUM(x=mod, pars='lambda')
+lambda <- extract.bmggum(x=mod, pars='lambda')
 # lambda[1,1] is the coefficient linking person covariate 1 to latent trait 1
 # lambda[1,2] is the coefficient linking person covariate 1 to latent trait 2
 lambda
@@ -116,12 +116,12 @@ lambda
 #> lambda[1,2] 270.77932 1.015689
 
 ## Step 4: Obtain model fit statistics 
-waic <- Modfit.BMGGUM(x=mod, index='waic')
-loo <- Modfit.BMGGUM(mod)
+waic <- modfit.bmggum(x=mod, index='waic')
+loo <- modfit.bmggum(mod)
 
 ## Step 5: Plottings
 # 5.1 Obtain the density plots for alpha
-Bayesplot.BMGGUM(x=mod, pars='alpha', plot='density', inc_warmup=F)
+bayesplot.bmggum(x=mod, pars='alpha', plot='density', inc_warmup=F)
 ```
 
 <img src="man/figures/README-example-1.png" width="70%" />
@@ -130,7 +130,7 @@ Bayesplot.BMGGUM(x=mod, pars='alpha', plot='density', inc_warmup=F)
 
 ## Step 6: Plotting observable response categories (ORCs) for items
 # 6.1 Obtain item plots with ORCs for item 1, 2, 3
-Itemplot.BMGGUM(x=mod, items = 1:3)
+itemplot.bmggum(x=mod, items = 1:3)
 ```
 
 <img src="man/figures/README-example-2.png" width="70%" />

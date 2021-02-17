@@ -1,11 +1,11 @@
 #' @title Bayesian Multidimensional Generalized Graded Unfolding Model (bmggum)
 #' @description This function implements full Bayesian estimation of Multidimensional Generalized Graded Unfolding Model (MGGUM) using rstan
 #' @param GGUM.Data Response data in wide format
-#' @param delindex A two-row data matrix: the first row is the item number (1,2,3,4...); the second row indicates the signs of delta for each item (-1,0,1,...). For items that have negative deltas for sure, "-1" should be assigned; for items that have positive deltas, "1" should be assigned; for items whose deltas may be either positive or negative (e.g., intermediate items), "0" should assigned. We recommend at least two positive and two negative items per trait for better estimation.
+#' @param delindex A two-row data matrix: the first row is the item number (1, 2, 3, 4...); the second row indicates the signs of delta for each item (-1,0,1,...). For items that have negative deltas for sure, "-1" should be assigned; for items that have positive deltas, "1" should be assigned; for items whose deltas may be either positive or negative (e.g., intermediate items), "0" should assigned. We recommend at least two positive and two negative items per trait for better estimation.
 #' @param trait The number of latent traits.
-#' @param ind A row vector mapping each item to each trait. For example, c(1,1,1,2,2,2) means that the first 3 items belong to trait 1 and the last 3 items belong to trait 2.
+#' @param ind A row vector mapping each item to each trait. For example, c(1, 1, 1, 2, 2, 2) means that the first 3 items belong to trait 1 and the last 3 items belong to trait 2.
 #' @param option The number of response options.
-#' @param model Models fitted. They can be "UM8", "UM7", and "UM4". The default is UM8, which is the GGUM model. UM4 is UM8 with alpha=1, called partial credit unfolding model. UM7 is UM8 with equal taus across items, called generalized rating scale unfolding model.
+#' @param model Models fitted. They can be "UM8", "UM7", and "UM4". The default is UM8, which is the GGUM model. UM4 is UM8 with alpha = 1, called partial credit unfolding model. UM7 is UM8 with equal taus across items, called generalized rating scale unfolding model.
 #' @param covariate An p*c person covariate matrix where p equals sample size and c equals the number of covariates. The default is NULL, meaning no person covariate.
 #' @param iter The number of iterations. The default value is 1000. See documentation for rstan for more details.
 #' @param chains The number of chains. The default value is 3. See documentation for rstan for more details.
@@ -21,9 +21,9 @@
 #' @param mdnu Mean of the prior distribution for neutral deltas, which follows a normal distribution. The default value is 0.
 #' @param mdpo Mean of the prior distribution for positive deltas, which follows a normal distribution. The default value is 1.
 #' @param vd Standard deviation of the prior distribution for deltas. The default value is 1.
-#' @param mt Means of the prior distributions for taus, which follows a normal distribution. The default values are seq(-3,0,3/(options-1)). The last one has to be 0. For items with only 2 options, we recommend to use (-2,0) as means of priors.
+#' @param mt Means of the prior distributions for taus, which follows a normal distribution. The default values are seq(-3, 0, 3/(options-1)). The last one has to be 0. For items with only 2 options, we recommend to use (-2, 0) as means of priors.
 #' @param vt Standard deviation of the prior distribution for taus. The default value is 2.
-#' @return Result object that stores information including the (1)stanfit object, (2)estimated item parameters, (3)estimated person parameters, (4)correlations among traits, (5)regression coefficients linking person covariates to each trait, (6)response data (excluding respondents who endorse a single option across all items), and (7)the input row vector mapping each item to each trait. Note that when covariates are included, output (4) represents residual correlations among the traits after controlling for the covariates.
+#' @return Result object that stores information including the (1) stanfit object, (2) estimated item parameters, (3) estimated person parameters, (4) correlations among traits, (5) regression coefficients linking person covariates to each trait, (6) response data (excluding respondents who endorse a single option across all items), and (7) the input row vector mapping each item to each trait. Note that when covariates are included, output (4) represents residual correlations among the traits after controlling for the covariates.
 #' @examples
 #' \dontrun{
 #' mod <- bmggum(GGUM.Data, delindex, trait, ind, covariate, option)}
@@ -1691,7 +1691,7 @@ return(MGGUM.summary)
 #' @title bmggum results extraction
 #' @description This function extracts bmggum estimation results.
 #' @param x bmggum returned object
-#' @param pars Names of extracted parameters. They can be "theta" (Person trait estimates), "alpha" (Item discrimination parameters), "delta" (Item location parameters), "tau" (Item threshold parameters), "cor" (Correlations among latent traits), "lambda" (Regression coefficients linking person covariates to latent traits), "data" (GGUM.Data after deleting respondents who endorse the same response options across all items), "fit" (The stanfit object), and "dimension" (The input row vector mapping each item to each trait). Note that when the model is UM4 in which alpha is fixed to 1, the extracted alpha is a n*1 matrix where n equals to the number of items.
+#' @param pars Names of extracted parameters. They can be "theta" (person trait estimates), "alpha" (ttem discrimination parameters), "delta" (ttem location parameters), "tau" (ttem threshold parameters), "cor" (correlations among latent traits), "lambda" (regression coefficients linking person covariates to latent traits), "data" (GGUM.Data after deleting respondents who endorse the same response options across all items), "fit" (the stanfit object), and "dimension" (the input row vector mapping each item to each trait). Note that when the model is UM4 in which alpha is fixed to 1, the extracted alpha is a n*1 matrix where n equals to the number of items.
 #' @return Selected results output
 #' @examples
 #' \dontrun{
@@ -1721,7 +1721,7 @@ extract.bmggum <- function(x, pars){
 #' @title bmggum Model fit
 #' @description This function provides model fit statistics.
 #' @param x bmggum returned object
-#' @param index Model fit indices. They can be "waic", which is the widely applicable information criterion, "loo", which is the leave-one-out cross-validation, or "chisq.df", which is the adjusted chi-square degrees of freedom ratios for each trait separately that were introduced by Drasgow et al.(1995). The default is loo. Note that chisq.df can only be computed when the sample size is large. See documentation for loo and GGUM for more details.
+#' @param index Model fit indices. They can be "waic", which is the widely applicable information criterion, "loo", which is the leave-one-out cross-validation, or "chisq.df", which is the adjusted chi-square degrees of freedom ratios for each trait separately that were introduced by Drasgow et al. (1995). The default is loo. Note that chisq.df can only be computed when the sample size is large. See documentation for loo and GGUM for more details.
 #' @return Selected model fit statistics
 #' @examples
 #' \dontrun{

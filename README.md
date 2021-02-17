@@ -4,7 +4,6 @@
 # bmggum
 
 <!-- badges: start -->
-
 <!-- badges: end -->
 
 The goal of bmggum is to estimate Multidimensional Generalized Graded
@@ -20,15 +19,15 @@ the bmggum package:
 3.  Allows users to estimate the **multidimensional version** of three
     unfolding models that are available in the software GGUM2004
     (Roberts, Fang, Cui, & Wang, 2006).
-      - UM8: The Generalized Graded Unfolding Model (GGUM).
-      - UM4: The Partial Credit Unfolding Model, which is the GGUM with
+    -   UM8: The Generalized Graded Unfolding Model (GGUM).
+    -   UM4: The Partial Credit Unfolding Model, which is the GGUM with
         all alphas constrained to 1.
-      - UM7: The Generalized Rating Scale Unfolding Model, which is the
+    -   UM7: The Generalized Rating Scale Unfolding Model, which is the
         GGUM with equal taus across items.
-4.  Five functions (i.e., bmggum(), extract.bmggum(), modfit.bmggum(),
-    bayesplot.bmggum(), and itemplot.bmggum()) are provided for model
-    estimation, results extraction, model fit examination (e.g.,waic,
-    loo, Chisq/df), and plottings, respectively.
+4.  Five functions (i.e., bmggum( ), extract.bmggum( ), modfit.bmggum(
+    ), bayesplot.bmggum( ), and itemplot.bmggum( )) are provided for
+    model estimation, results extraction, model fit examination
+    (e.g.,waic, loo, chisq/df), and plottings, respectively.
 
 ## Installation
 
@@ -40,7 +39,7 @@ devtools::install_github("Naidantu/bmggum")
 
 ## Example
 
-This is a basic example which shows you how to prepare data, fit the
+This is a basic example that shows you how to prepare data, fit the
 model, extract and plot results.
 
 ``` r
@@ -77,16 +76,16 @@ theta <- matrix(theta, nrow=2)
 theta <- t(theta)
 # theta estimates in p*trait matrix format
 theta
-#>              [,1]       [,2]
-#>  [1,]  1.02827165  0.1383072
-#>  [2,] -1.48966211 -0.4879501
-#>  [3,] -1.23199246 -0.5386983
-#>  [4,]  0.72273151  0.9077001
-#>  [5,] -0.07190353 -0.7465508
-#>  [6,]  0.01017143 -0.7285008
-#>  [7,]  0.74872975  0.3503585
-#>  [8,]  0.14404169  0.3832711
-#>  [9,]  0.67153177  0.7799127
+#>              [,1]        [,2]
+#>  [1,]  1.01172010  0.03007375
+#>  [2,] -1.49457843 -0.28825368
+#>  [3,] -1.24305523 -0.56841647
+#>  [4,]  0.70989404  1.00436767
+#>  [5,] -0.05374441 -0.81460972
+#>  [6,]  0.10233920 -0.82928930
+#>  [7,]  0.80263701  0.21347193
+#>  [8,]  0.11552137  0.54509935
+#>  [9,]  0.67097662  0.89182374
 
 # 3.2 Extract the tau estimates 
 tau <- extract.bmggum(x=mod, pars='tau')
@@ -97,11 +96,11 @@ tau <- matrix(tau, nrow=3)
 tau <- t(tau)
 # tau estimates in I*(option-1) matrix format
 tau
-#>            [,1]      [,2]       [,3]
-#> [1,] -0.8525584 -1.515381 -2.2622210
-#> [2,] -1.5350442 -1.914934 -1.1046813
-#> [3,] -3.1848261 -0.864112 -0.8484167
-#> [4,] -2.3081667 -1.308957 -1.0176210
+#>            [,1]       [,2]       [,3]
+#> [1,] -0.8444732 -1.5242984 -2.2944532
+#> [2,] -1.5878937 -1.8973009 -1.1197230
+#> [3,] -3.2735301 -0.9010291 -0.8618411
+#> [4,] -2.3371485 -1.3746858 -1.0575782
 
 # 3.3 Extract the lambda estimates 
 lambda <- extract.bmggum(x=mod, pars='lambda')
@@ -109,11 +108,11 @@ lambda <- extract.bmggum(x=mod, pars='lambda')
 # lambda[1,2] is the coefficient linking person covariate 1 to latent trait 2
 lambda
 #>                   mean    se_mean        sd       2.5%        50%     97.5%
-#> lambda[1,1]  0.2218955 0.06258234 0.5560846 -0.9870707  0.2492191 1.2429283
-#> lambda[1,2] -0.2271798 0.03954914 0.6507959 -1.6141768 -0.2199205 0.9996559
-#>                 n_eff     Rhat
-#> lambda[1,1]  78.95472 1.039613
-#> lambda[1,2] 270.77932 1.015689
+#> lambda[1,1]  0.2300054 0.02218539 0.4684616 -0.6407667  0.2297074 1.2042006
+#> lambda[1,2] -0.3465347 0.04595152 0.6728208 -1.8855763 -0.2677931 0.8448643
+#>                n_eff     Rhat
+#> lambda[1,1] 445.8758 1.000741
+#> lambda[1,2] 214.3873 1.003417
 
 ## Step 4: Obtain model fit statistics 
 waic <- modfit.bmggum(x=mod, index='waic')
@@ -127,7 +126,6 @@ bayesplot.bmggum(x=mod, pars='alpha', plot='density', inc_warmup=F)
 <img src="man/figures/README-example-1.png" width="70%" />
 
 ``` r
-
 ## Step 6: Plotting observable response categories (ORCs) for items
 # 6.1 Obtain item plots with ORCs for item 1, 2, 3
 itemplot.bmggum(x=mod, items = 1:3)

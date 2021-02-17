@@ -35,7 +35,7 @@ The bmggum package was developed to estimate Multidimensional Unfolding Models (
     * UM4: The Partial Credit Unfolding Model, which is the GGUM with all alphas constrained to 1.
     * UM7: The Generalized Rating Scale Unfolding Model, which is the GGUM with equal taus across items.
 
-4. Five functions (i.e., bmggum(), extract.bmggum(), modfit.bmggum(), bayesplot.bmggum(), and itemplot.bmggum()) are provided for model estimation, results extraction, model fit examination (e.g.,waic, loo, chisq/df), and plottings, respectively. See below for function details. 
+4. Five functions (i.e., bmggum( ), extract.bmggum( ), modfit.bmggum( ), bayesplot.bmggum( ), and itemplot.bmggum( )) are provided for model estimation, results extraction, model fit examination (e.g.,waic, loo, chisq/df), and plottings, respectively. See below for function details. 
 
 
 ## Tutorial

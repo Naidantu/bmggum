@@ -1,7 +1,7 @@
 Package: bmggum
 Title: Bayesian Multidimensional Generalized Graded Unfolding Model (MGGUM) Estimation
-Version: 0.0.0.9000
-Date: 2020-12-31
+Version: 0.1.0
+Date: 2021-3-5
 Authors@R: 
     c(person(given = "Naidan",
            family = "Tu",

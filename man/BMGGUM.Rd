@@ -33,15 +33,15 @@ bmggum(
 \arguments{
 \item{GGUM.Data}{Response data in wide format}
 
-\item{delindex}{A two-row data matrix: the first row is the item number (1,2,3,4...); the second row indicates the signs of delta for each item (-1,0,1,...). For items that have negative deltas for sure, "-1" should be assigned; for items that have positive deltas, "1" should be assigned; for items whose deltas may be either positive or negative (e.g., intermediate items), "0" should assigned. We recommend at least two positive and two negative items per trait for better estimation.}
+\item{delindex}{A two-row data matrix: the first row is the item number (1, 2, 3, 4...); the second row indicates the signs of delta for each item (-1,0,1,...). For items that have negative deltas for sure, "-1" should be assigned; for items that have positive deltas, "1" should be assigned; for items whose deltas may be either positive or negative (e.g., intermediate items), "0" should assigned. We recommend at least two positive and two negative items per trait for better estimation.}
 
 \item{trait}{The number of latent traits.}
 
-\item{ind}{A row vector mapping each item to each trait. For example, c(1,1,1,2,2,2) means that the first 3 items belong to trait 1 and the last 3 items belong to trait 2.}
+\item{ind}{A row vector mapping each item to each trait. For example, c(1, 1, 1, 2, 2, 2) means that the first 3 items belong to trait 1 and the last 3 items belong to trait 2.}
 
 \item{option}{The number of response options.}
 
-\item{model}{Models fitted. They can be "UM8", "UM7", and "UM4". The default is UM8, which is the GGUM model. UM4 is UM8 with alpha=1, called partial credit unfolding model. UM7 is UM8 with equal taus across items, called generalized rating scale unfolding model.}
+\item{model}{Models fitted. They can be "UM8", "UM7", and "UM4". The default is UM8, which is the GGUM model. UM4 is UM8 with alpha = 1, called partial credit unfolding model. UM7 is UM8 with equal taus across items, called generalized rating scale unfolding model.}
 
 \item{covariate}{An p*c person covariate matrix where p equals sample size and c equals the number of covariates. The default is NULL, meaning no person covariate.}
 
@@ -73,12 +73,12 @@ bmggum(
 
 \item{vd}{Standard deviation of the prior distribution for deltas. The default value is 1.}
 
-\item{mt}{Means of the prior distributions for taus, which follows a normal distribution. The default values are seq(-3,0,3/(options-1)). The last one has to be 0. For items with only 2 options, we recommend to use (-2,0) as means of priors.}
+\item{mt}{Means of the prior distributions for taus, which follows a normal distribution. The default values are seq(-3, 0, 3/(options-1)). The last one has to be 0. For items with only 2 options, we recommend to use (-2, 0) as means of priors.}
 
 \item{vt}{Standard deviation of the prior distribution for taus. The default value is 2.}
 }
 \value{
-Result object that stores information including the (1)stanfit object, (2)estimated item parameters, (3)estimated person parameters, (4)correlations among traits, (5)regression coefficients linking person covariates to each trait, (6)response data (excluding respondents who endorse a single option across all items), and (7)the input row vector mapping each item to each trait. Note that when covariates are included, output (4) represents residual correlations among the traits after controlling for the covariates.
+Result object that stores information including the (1) stanfit object, (2) estimated item parameters, (3) estimated person parameters, (4) correlations among traits, (5) regression coefficients linking person covariates to each trait, (6) response data (excluding respondents who endorse a single option across all items), and (7) the input row vector mapping each item to each trait. Note that when covariates are included, output (4) represents residual correlations among the traits after controlling for the covariates.
 }
 \description{
 This function implements full Bayesian estimation of Multidimensional Generalized Graded Unfolding Model (MGGUM) using rstan

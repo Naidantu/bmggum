@@ -9,7 +9,7 @@ extract.bmggum(x, pars)
 \arguments{
 \item{x}{bmggum returned object}
 
-\item{pars}{Names of extracted parameters. They can be "theta" (Person trait estimates), "alpha" (Item discrimination parameters), "delta" (Item location parameters), "tau" (Item threshold parameters), "cor" (Correlations among latent traits), "lambda" (Regression coefficients linking person covariates to latent traits), "data" (GGUM.Data after deleting respondents who endorse the same response options across all items), "fit" (The stanfit object), and "dimension" (The input row vector mapping each item to each trait). Note that when the model is UM4 in which alpha is fixed to 1, the extracted alpha is a n*1 matrix where n equals to the number of items.}
+\item{pars}{Names of extracted parameters. They can be "theta" (person trait estimates), "alpha" (ttem discrimination parameters), "delta" (ttem location parameters), "tau" (ttem threshold parameters), "cor" (correlations among latent traits), "lambda" (regression coefficients linking person covariates to latent traits), "data" (GGUM.Data after deleting respondents who endorse the same response options across all items), "fit" (the stanfit object), and "dimension" (the input row vector mapping each item to each trait). Note that when the model is UM4 in which alpha is fixed to 1, the extracted alpha is a n*1 matrix where n equals to the number of items.}
 }
 \value{
 Selected results output

@@ -2,8 +2,10 @@
 title: "bmggum: Bayesian Estimation of Multidimensional Generalized Graded Unfolding Model"
 author: Naidan Tu, Bo Zhang
 output: 
-  rmarkdown::html_vignette:
-    toc: true
+  #rmarkdown::html_vignette:
+   # toc: true
+  pdf_document:
+    toc: TRUE
 vignette: >
   %\VignetteIndexEntry{bmggum}
   %\VignetteEngine{knitr::rmarkdown}
@@ -177,22 +179,14 @@ The function extract.bmggum() extracts bmggum estimation results.
 ### Step 4: Obtain model fit statistics using the function modfit.bmggum()
 
 ```{r}
-# Obtain the model fit statistic waic 
-#>waic <- modfit.bmggum(x=mod, index='waic')
-#>waic
-
 # Obtain the model fit statistic loo
 #>loo <- modfit.bmggum(mod)
 #>loo
 
-# Obtain the model fit statistic adjusted chi-square degrees of freedom ratios
-#>chisq.df <- modfit.bmggum(mod, index='chisq.df')
-#>chisq.df
+# Obtain the model fit statistic waic 
+#>waic <- modfit.bmggum(x=mod, index='waic')
+#>waic
 ```
-
-The function modfit.bmggum() provides model fit statistics. The elpd_waic and elpd_loo in the output indicate goodness of fit, meaning the larger elpd_waic and elpd_loo are, the better model fit. The waic and looic in the output indicate badness of fit, meaning the smaller waic and looic are, the better model fit. See documentation for the package **loo**, **GGUM**, Vehtari, Gelman, & Gabry (2017), Drasgow et al.(1995), and Tendeiro & Castro-Alvarez (2019) for more details.
-
-* __index__. Model fit indices. The default is loo, which is the leave-one-out cross-validation. It can also be "waic", which is the widely applicable information criterion, or "chisq.df", which is the adjusted chi-square degrees of freedom ratios calculated for each trait separately that were introduced by Drasgow et al.(1995). Note that chisq.df can only be computed when the sample size is large.
 
 ### Step 5: Plotting using the function bayesplot.bmggum()
 
@@ -204,11 +198,6 @@ The function modfit.bmggum() provides model fit statistics. The elpd_waic and el
 ```{r}
 # Obtain trace plots for the discrimination parameter of the first two items (alpha[1] and alpha[2]).
 #>bayesplot.bmggum(x=mod, pars=paste0("alpha[",1:2,"]"), plot='trace', inc_warmup=F)
-```
-
-```{r}
-# Obtain auto-correlation plots for estimates of trait 1 and trait 2 for the first person (theta[1,1] and theta[1,2]).
-#>bayesplot.bmggum(x=mod, pars=paste0("theta[1,",1:2,"]"), plot='autocorrelation', inc_warmup=F)
 ```
 
 The function bayesplot.bmggum() provides plots including density plots, trace plots, and auto-correlation plots to aid model convergence diagnosis. The smoothness of density plots, the stationary status of trace plots, and low degree of auto-correlation in auto-correlation plots all indicate good convergence. In this example, the density plots for alpha look ok. More iterations are needed to achieve stationary status of trace plots for alpha[1] and alpha[2]. The auto-correlation for theta[1,2] is high, and increase thinning might help. Note that results presented above are just for demonstration and may not reflect typical GGUM results. 
@@ -228,4 +217,3 @@ The function bayesplot.bmggum() provides plots including density plots, trace pl
 # Obtain item plots with ORCs for item 2, 3, 4.
 #>itemplot.bmggum(x=mod, items = 2:4)
 ```
-

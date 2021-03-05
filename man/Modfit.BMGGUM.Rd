@@ -9,7 +9,7 @@ modfit.bmggum(x, index = "loo")
 \arguments{
 \item{x}{bmggum returned object}
 
-\item{index}{Model fit indices. They can be "waic", which is the widely applicable information criterion, "loo", which is the leave-one-out cross-validation, or "chisq.df", which is the adjusted chi-square degrees of freedom ratios for each trait separately that were introduced by Drasgow et al.(1995). The default is loo. Note that chisq.df can only be computed when the sample size is large. See documentation for loo and GGUM for more details.}
+\item{index}{Model fit indices. They can be "waic", which is the widely applicable information criterion, "loo", which is the leave-one-out cross-validation, or "chisq.df", which is the adjusted chi-square degrees of freedom ratios for each trait separately that were introduced by Drasgow et al. (1995). The default is loo. Note that chisq.df can only be computed when the sample size is large. See documentation for loo and GGUM for more details.}
 }
 \value{
 Selected model fit statistics

@@ -25,8 +25,15 @@
 #' @param vt Standard deviation of the prior distribution for taus. The default value is 2.
 #' @return Result object that stores information including the (1) stanfit object, (2) estimated item parameters, (3) estimated person parameters, (4) correlations among traits, (5) regression coefficients linking person covariates to each trait, (6) response data (excluding respondents who endorse a single option across all items), and (7) the input row vector mapping each item to each trait. Note that when covariates are included, output (4) represents residual correlations among the traits after controlling for the covariates.
 #' @examples
-#' \dontrun{
-#' mod <- bmggum(GGUM.Data, delindex, trait, ind, covariate, option)}
+#' \donttest{
+#' Data <- c(1,4,4,1,1,1,1,1,1,1,4,1,1,3,1,1,NA,2,NA,3,2,2,2,1,3,2,NA,2,1,1)
+#' Data <- matrix(Data,nrow = 10)
+#' deli <- c(1,-1,2,1,3,-1)
+#' deli <- matrix(deli,nrow = 2)
+#' ind <- c(1,1,2)
+#' ind <- t(ind)
+#' cova <- c(0.70, -1.25, 0.48, -0.47, 0.86, 1.25, 1.17, -1.35, -0.84, -0.55)
+#' mod <- bmggum(GGUM.Data=Data, delindex=deli, trait=2, ind=ind, option=4, covariate=cova)}
 #' @export
 bmggum <- function(GGUM.Data, delindex, trait, ind, option, model="UM8", covariate=NULL, iter=1000, chains=3,
                    warmup=floor(iter/2), adapt_delta=0.90, max_treedepth=15, init="random", thin=1, cores=2,
@@ -48,7 +55,7 @@ if (option==2){
         if (colSums(is.na(as.matrix(GGUM.Data[i,])))==(ncol(delindex))-1){
           Valid[i]=1
         } else{
-          Valid[i]<-stats::var(GGUM.Data[i,], na.rm=T)
+          Valid[i]<-stats::var(GGUM.Data[i,], na.rm=TRUE)
         }
       }
 
@@ -307,7 +314,7 @@ MGGUM.summary<-list(Theta.est=THETA,
         if (colSums(is.na(as.matrix(GGUM.Data[i,])))==(ncol(delindex))-1){
           Valid[i]=1
         } else{
-          Valid[i]<-stats::var(GGUM.Data[i,], na.rm=T)
+          Valid[i]<-stats::var(GGUM.Data[i,], na.rm=TRUE)
         }
       }
 
@@ -595,7 +602,7 @@ MGGUM.summary<-list(Theta.est=THETA,
         if (colSums(is.na(as.matrix(GGUM.Data[i,])))==(ncol(delindex))-1){
           Valid[i]=1
         } else{
-          Valid[i]<-stats::var(GGUM.Data[i,], na.rm=T)
+          Valid[i]<-stats::var(GGUM.Data[i,], na.rm=TRUE)
         }
       }
 
@@ -855,7 +862,7 @@ MGGUM.summary<-list(Theta.est=THETA,
         if (colSums(is.na(as.matrix(GGUM.Data[i,])))==(ncol(delindex))-1){
           Valid[i]=1
         } else{
-          Valid[i]<-stats::var(GGUM.Data[i,], na.rm=T)
+          Valid[i]<-stats::var(GGUM.Data[i,], na.rm=TRUE)
         }
       }
 
@@ -1144,7 +1151,7 @@ MGGUM.summary<-list(Theta.est=THETA,
         if (colSums(is.na(as.matrix(GGUM.Data[i,])))==(ncol(delindex))-1){
           Valid[i]=1
         } else{
-          Valid[i]<-stats::var(GGUM.Data[i,], na.rm=T)
+          Valid[i]<-stats::var(GGUM.Data[i,], na.rm=TRUE)
         }
       }
 
@@ -1401,7 +1408,7 @@ MGGUM.summary<-list(Theta.est=THETA,
         if (colSums(is.na(as.matrix(GGUM.Data[i,])))==(ncol(delindex))-1){
           Valid[i]=1
         } else{
-          Valid[i]<-stats::var(GGUM.Data[i,], na.rm=T)
+          Valid[i]<-stats::var(GGUM.Data[i,], na.rm=TRUE)
         }
       }
 
@@ -1694,12 +1701,19 @@ return(MGGUM.summary)
 #' @param pars Names of extracted parameters. They can be "theta" (person trait estimates), "alpha" (ttem discrimination parameters), "delta" (ttem location parameters), "tau" (ttem threshold parameters), "cor" (correlations among latent traits), "lambda" (regression coefficients linking person covariates to latent traits), "data" (GGUM.Data after deleting respondents who endorse the same response options across all items), "fit" (the stanfit object), and "dimension" (the input row vector mapping each item to each trait). Note that when the model is UM4 in which alpha is fixed to 1, the extracted alpha is a n*1 matrix where n equals to the number of items.
 #' @return Selected results output
 #' @examples
-#' \dontrun{
+#' \donttest{
+#' Data <- c(1,4,4,1,1,1,1,1,1,1,4,1,1,3,1,1,NA,2,NA,3,2,2,2,1,3,2,NA,2,1,1)
+#' Data <- matrix(Data,nrow = 10)
+#' deli <- c(1,-1,2,1,3,-1)
+#' deli <- matrix(deli,nrow = 2)
+#' ind <- c(1,1,2)
+#' ind <- t(ind)
+#' cova <- c(0.70, -1.25, 0.48, -0.47, 0.86, 1.25, 1.17, -1.35, -0.84, -0.55)
+#' mod <- bmggum(GGUM.Data=Data, delindex=deli, trait=2, ind=ind, option=4, covariate=cova)
 #' theta <- extract.bmggum(mod, 'theta')
 #' alpha <- extract.bmggum(mod, 'alpha')
 #' cor <- extract.bmggum(mod, 'cor')
-#' data <- extract.bmggum(mod, 'data')
-#' mod <- bmggum(GGUM.Data, delindex, trait, ind, covariate, option)}
+#' data <- extract.bmggum(mod, 'data')}
 #' @export
 extract.bmggum <- function(x, pars){
 
@@ -1724,11 +1738,18 @@ extract.bmggum <- function(x, pars){
 #' @param index Model fit indices. They can be "waic", which is the widely applicable information criterion, "loo", which is the leave-one-out cross-validation, or "chisq.df", which is the adjusted chi-square degrees of freedom ratios for each trait separately that were introduced by Drasgow et al. (1995). The default is loo. Note that chisq.df can only be computed when the sample size is large. See documentation for loo and GGUM for more details.
 #' @return Selected model fit statistics
 #' @examples
-#' \dontrun{
+#' \donttest{
+#' Data <- c(1,4,4,1,1,1,1,1,1,1,4,1,1,3,1,1,NA,2,NA,3,2,2,2,1,3,2,NA,2,1,1)
+#' Data <- matrix(Data,nrow = 10)
+#' deli <- c(1,-1,2,1,3,-1)
+#' deli <- matrix(deli,nrow = 2)
+#' ind <- c(1,1,2)
+#' ind <- t(ind)
+#' cova <- c(0.70, -1.25, 0.48, -0.47, 0.86, 1.25, 1.17, -1.35, -0.84, -0.55)
+#' mod <- bmggum(GGUM.Data=Data, delindex=deli, trait=2, ind=ind, option=4, covariate=cova)
 #' waic <- modfit.bmggum(mod, 'waic')
 #' loocv <- modfit.bmggum(mod, 'loo')
-#' chisq.df <- modfit.bmggum(mod, 'chisq.df')
-#' mod <- bmggum(GGUM.Data, delindex, trait, ind, covariate, option)}
+#' chisq.df <- modfit.bmggum(mod, 'chisq.df')}
 #' @export
 modfit.bmggum <- function(x, index="loo"){
 
@@ -1793,13 +1814,20 @@ modfit.bmggum <- function(x, index="loo"){
 #' @param inc_warmup Whether to include warmup iterations or not when plotting. The default is FALSE.
 #' @return Selected plots for selected parameters
 #' @examples
-#' \dontrun{
-#' bayesplot.bmggum(mod, 'alpha', 'density', inc_warmup=T)
-#' bayesplot.bmggum(mod, 'delta', 'trace', inc_warmup=F)
-#' bayesplot.bmggum(mod, 'tau', 'autocorrelation', inc_warmup=T)
-#' mod <- bmggum(GGUM.Data, delindex, trait, ind, covariate, option)}
+#' \donttest{
+#' Data <- c(1,4,4,1,1,1,1,1,1,1,4,1,1,3,1,1,NA,2,NA,3,2,2,2,1,3,2,NA,2,1,1)
+#' Data <- matrix(Data,nrow = 10)
+#' deli <- c(1,-1,2,1,3,-1)
+#' deli <- matrix(deli,nrow = 2)
+#' ind <- c(1,1,2)
+#' ind <- t(ind)
+#' cova <- c(0.70, -1.25, 0.48, -0.47, 0.86, 1.25, 1.17, -1.35, -0.84, -0.55)
+#' mod <- bmggum(GGUM.Data=Data, delindex=deli, trait=2, ind=ind, option=4, covariate=cova)
+#' bayesplot.bmggum(mod, 'alpha', 'density', inc_warmup=TRUE)
+#' bayesplot.bmggum(mod, 'delta', 'trace', inc_warmup=FALSE)
+#' bayesplot.bmggum(mod, 'tau', 'autocorrelation', inc_warmup=TRUE)}
 #' @export
-bayesplot.bmggum <- function(x, pars, plot, inc_warmup=F){
+bayesplot.bmggum <- function(x, pars, plot, inc_warmup=FALSE){
 
   x <- extract.bmggum(x, 'fit')
   if (pars=="cor"){
@@ -1830,9 +1858,16 @@ bayesplot.bmggum <- function(x, pars, plot, inc_warmup=F){
 #' @param items The items to be plotted. The default is all the items.
 #' @return Selected ORC plots for selected items
 #' @examples
-#' \dontrun{
-#' itemplot.bmggum(mod, items=1:5)
-#' mod <- bmggum(GGUM.Data, delindex, trait, ind, covariate, option)}
+#' \donttest{
+#' Data <- c(1,4,4,1,1,1,1,1,1,1,4,1,1,3,1,1,NA,2,NA,3,2,2,2,1,3,2,NA,2,1,1)
+#' Data <- matrix(Data,nrow = 10)
+#' deli <- c(1,-1,2,1,3,-1)
+#' deli <- matrix(deli,nrow = 2)
+#' ind <- c(1,1,2)
+#' ind <- t(ind)
+#' cova <- c(0.70, -1.25, 0.48, -0.47, 0.86, 1.25, 1.17, -1.35, -0.84, -0.55)
+#' mod <- bmggum(GGUM.Data=Data, delindex=deli, trait=2, ind=ind, option=4, covariate=cova)
+#' itemplot.bmggum(mod, items=1:5)}
 #' @export
 itemplot.bmggum <- function(x, items=NULL){
 

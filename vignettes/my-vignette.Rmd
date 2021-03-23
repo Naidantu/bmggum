@@ -2,8 +2,8 @@
 title: "bmggum: Bayesian Estimation of Multidimensional Generalized Graded Unfolding Model"
 author: Naidan Tu, Bo Zhang
 output: 
-  #rmarkdown::html_vignette:
-   # toc: true
+  rmarkdown::html_vignette:
+    toc: true
   pdf_document:
     toc: TRUE
 vignette: >
@@ -147,7 +147,7 @@ The function bmggum() implements full Bayesian estimation of MGGUM using rstan. 
 # Turn theta estimates into p*trait matrix where p equals sample size and trait equals the number of latent traits
 #>theta <- theta[,1]
 # nrow=trait
-#>theta <- matrix(theta, nrow=2, byrow = T)  
+#>theta <- matrix(theta, nrow=2, byrow = TRUE)  
 #>theta <- t(theta)
 # theta estimates in p*trait matrix format
 #>theta
@@ -159,7 +159,7 @@ The function bmggum() implements full Bayesian estimation of MGGUM using rstan. 
 # Turn the tau estimates into I*(option-1) matrix where I equals the number of items and option equals the number of response options
 #>tau <- tau[,1]
 # nrow=option-1
-#>tau <- matrix(tau, nrow=3, byrow = T)  
+#>tau <- matrix(tau, nrow=3, byrow = TRUE)  
 #>tau <- t(tau)
 # tau estimates in I*(option-1) matrix format
 #>tau
@@ -192,12 +192,12 @@ The function extract.bmggum() extracts bmggum estimation results.
 
 ```{r}
 # Obtain density plots for all alphas. 
-#>bayesplot.bmggum(x=mod, pars='alpha', plot='density', inc_warmup=F)
+#>bayesplot.bmggum(x=mod, pars='alpha', plot='density', inc_warmup=FALSE)
 ```
 
 ```{r}
 # Obtain trace plots for the discrimination parameter of the first two items (alpha[1] and alpha[2]).
-#>bayesplot.bmggum(x=mod, pars=paste0("alpha[",1:2,"]"), plot='trace', inc_warmup=F)
+#>bayesplot.bmggum(x=mod, pars=paste0("alpha[",1:2,"]"), plot='trace', inc_warmup=FALSE)
 ```
 
 The function bayesplot.bmggum() provides plots including density plots, trace plots, and auto-correlation plots to aid model convergence diagnosis. The smoothness of density plots, the stationary status of trace plots, and low degree of auto-correlation in auto-correlation plots all indicate good convergence. In this example, the density plots for alpha look ok. More iterations are needed to achieve stationary status of trace plots for alpha[1] and alpha[2]. The auto-correlation for theta[1,2] is high, and increase thinning might help. Note that results presented above are just for demonstration and may not reflect typical GGUM results. 

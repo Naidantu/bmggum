@@ -97,7 +97,7 @@ loo <- modfit.bmggum(mod)
 
 ## Step 5: Plottings
 # 5.1 Obtain the density plots for alpha
-bayesplot.bmggum(x=mod, pars='alpha', plot='density', inc_warmup=F)
+bayesplot.bmggum(x=mod, pars='alpha', plot='density', inc_warmup=FALSE)
 
 ## Step 6: Plotting observable response categories (ORCs) for items
 # 6.1 Obtain item plots with ORCs for item 1, 2, 3

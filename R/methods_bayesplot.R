@@ -23,6 +23,7 @@ bayesplot <- function(x, pars, plot, inc_warmup=FALSE){
   UseMethod("bayesplot")
 }
 
+
 #' @export
 #' @method bayesplot bmggum 
 bayesplot.bmggum <- function(x, pars, plot, inc_warmup=FALSE){

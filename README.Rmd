@@ -27,7 +27,7 @@ The goal of bmggum is to estimate Multidimensional Generalized Graded Unfolding 
     * UM8: The Generalized Graded Unfolding Model (GGUM).
     * UM4: The Partial Credit Unfolding Model, which is the GGUM with all alphas constrained to 1.
     * UM7: The Generalized Rating Scale Unfolding Model, which is the GGUM with equal taus across items.
-4. Five functions (i.e., bmggum( ), extract.bmggum( ), modfit.bmggum( ), bayesplot.bmggum( ), and itemplot.bmggum( )) are provided for model estimation, results extraction, model fit examination (e.g.,waic, loo, chisq/df), and plottings, respectively.
+4. Five functions (i.e., bmggum( ), extract( ), modfit( ), bayesplot( ), and itemplot( )) are provided for model estimation, results extraction, model fit examination (e.g.,waic, loo, chisq/df), and plottings, respectively.
 
 ## Installation
 
@@ -66,7 +66,7 @@ mod <- bmggum(GGUM.Data=GGUM.Data, delindex=delindex, trait=2, ind=ind, option=4
 
 ## Step 3: Extract the estimated results 
 # 3.1 Extract the theta estimates 
-theta <- extract.bmggum(x=mod, pars='theta')
+theta <- extract(x=mod, pars='theta')
 # Turn the theta estimates into p*trait matrix where p equals sample size and trait equals the number of latent traits
 theta <- theta[,1]
 # nrow=trait
@@ -76,7 +76,7 @@ theta <- t(theta)
 theta
 
 # 3.2 Extract the tau estimates 
-tau <- extract.bmggum(x=mod, pars='tau')
+tau <- extract(x=mod, pars='tau')
 # Turn the tau estimates into I*(option-1) matrix where I equals the number of items and option equals the number of response options
 tau <- tau[,1]
 # nrow=option-1
@@ -86,20 +86,20 @@ tau <- t(tau)
 tau
 
 # 3.3 Extract the lambda estimates 
-lambda <- extract.bmggum(x=mod, pars='lambda')
+lambda <- extract(x=mod, pars='lambda')
 # lambda[1,1] is the coefficient linking person covariate 1 to latent trait 1
 # lambda[1,2] is the coefficient linking person covariate 1 to latent trait 2
 lambda
 
 ## Step 4: Obtain model fit statistics 
-waic <- modfit.bmggum(x=mod, index='waic')
-loo <- modfit.bmggum(mod)
+waic <- modfit(x=mod, index='waic')
+loo <- modfit(mod)
 
 ## Step 5: Plottings
 # 5.1 Obtain the density plots for alpha
-bayesplot.bmggum(x=mod, pars='alpha', plot='density', inc_warmup=FALSE)
+bayesplot(x=mod, pars='alpha', plot='density', inc_warmup=FALSE)
 
 ## Step 6: Plotting observable response categories (ORCs) for items
 # 6.1 Obtain item plots with ORCs for item 1, 2, 3
-itemplot.bmggum(x=mod, items = 1:3)
+itemplot(x=mod, items = 1:3)
 ```

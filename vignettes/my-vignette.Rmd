@@ -7,7 +7,7 @@ output:
   pdf_document:
     toc: TRUE
 vignette: >
-  %\VignetteIndexEntry{bmggum}
+  %\VignetteIndexEntry{bmggum: Bayesian Estimation of Multidimensional Generalized Graded Unfolding Model}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -37,7 +37,7 @@ The bmggum package was developed to estimate Multidimensional Unfolding Models (
     * UM4: The Partial Credit Unfolding Model, which is the GGUM with all alphas constrained to 1.
     * UM7: The Generalized Rating Scale Unfolding Model, which is the GGUM with equal taus across items.
 
-4. Five functions (i.e., bmggum( ), extract.bmggum( ), modfit.bmggum( ), bayesplot.bmggum( ), and itemplot.bmggum( )) are provided for model estimation, results extraction, model fit examination (e.g.,waic, loo, chisq/df), and plottings, respectively. See below for function details. 
+4. Five functions (i.e., bmggum( ), extract( ), modfit( ), bayesplot( ), and itemplot( )) are provided for model estimation, results extraction, model fit examination (e.g.,waic, loo, chisq/df), and plottings, respectively. See below for function details. 
 
 
 ## Tutorial
@@ -138,11 +138,11 @@ The function bmggum() implements full Bayesian estimation of MGGUM using rstan. 
 * __mt__. Means of the prior distributions for taus, which follows a normal distribution. The default values are seq(-3,0,3/(options-1)). The last one has to be 0. For items with only 2 options, we recommend to use (-2,0) as means of priors.
 * __vt__. Standard deviation of the prior distribution for taus. The default value is 2.
 
-### Step 3: Extract the estimated results using the function extract.bmggum()
+### Step 3: Extract the estimated results using the function extract()
 
 ```{r}
 # Extract theta estimates 
-#>theta <- extract.bmggum(x=mod, pars='theta')
+#>theta <- extract(x=mod, pars='theta')
 #>theta
 # Turn theta estimates into p*trait matrix where p equals sample size and trait equals the number of latent traits
 #>theta <- theta[,1]
@@ -154,7 +154,7 @@ The function bmggum() implements full Bayesian estimation of MGGUM using rstan. 
 
 
 # Extract tau estimates 
-#>tau <- extract.bmggum(x=mod, pars='tau')
+#>tau <- extract(x=mod, pars='tau')
 #>tau
 # Turn the tau estimates into I*(option-1) matrix where I equals the number of items and option equals the number of response options
 #>tau <- tau[,1]
@@ -166,54 +166,54 @@ The function bmggum() implements full Bayesian estimation of MGGUM using rstan. 
 
 
 # Extract lambda estimates 
-#>lambda <- extract.bmggum(x=mod, pars='lambda')
+#>lambda <- extract(x=mod, pars='lambda')
 # lambda[1,1] is the coefficient linking person covariate 1 to latent trait 1
 # lambda[1,2] is the coefficient linking person covariate 1 to latent trait 2
 #>lambda
 ```
 
-The function extract.bmggum() extracts bmggum estimation results. 
+The function extract() extracts bmggum estimation results. 
 
 * __pars__. Names of extracted parameters. They can be "theta" (Person trait estimates), "alpha" (Item discrimination parameters), "delta" (Item location parameters), "tau" (Item threshold parameters), "cor" (Correlations among latent traits), "lambda" (Regression coefficients linking person covariates to latent traits), "data" (GGUM.Data after deleting respondents who endorse the same response options across all items), "fit" (The stanfit object), and "dimension" (The input row vector mapping each item to each trait). Note that when the model is UM4 in which alpha is fixed to 1, the extracted alpha is a n*1 matrix where n equals to the number of items. 
 
-### Step 4: Obtain model fit statistics using the function modfit.bmggum()
+### Step 4: Obtain model fit statistics using the function modfit()
 
 ```{r}
 # Obtain the model fit statistic loo
-#>loo <- modfit.bmggum(mod)
+#>loo <- modfit(mod)
 #>loo
 
 # Obtain the model fit statistic waic 
-#>waic <- modfit.bmggum(x=mod, index='waic')
+#>waic <- modfit(x=mod, index='waic')
 #>waic
 ```
 
-### Step 5: Plotting using the function bayesplot.bmggum()
+### Step 5: Plotting using the function bayesplot()
 
 ```{r}
 # Obtain density plots for all alphas. 
-#>bayesplot.bmggum(x=mod, pars='alpha', plot='density', inc_warmup=FALSE)
+#>bayesplot(x=mod, pars='alpha', plot='density', inc_warmup=FALSE)
 ```
 
 ```{r}
 # Obtain trace plots for the discrimination parameter of the first two items (alpha[1] and alpha[2]).
-#>bayesplot.bmggum(x=mod, pars=paste0("alpha[",1:2,"]"), plot='trace', inc_warmup=FALSE)
+#>bayesplot(x=mod, pars=paste0("alpha[",1:2,"]"), plot='trace', inc_warmup=FALSE)
 ```
 
-The function bayesplot.bmggum() provides plots including density plots, trace plots, and auto-correlation plots to aid model convergence diagnosis. The smoothness of density plots, the stationary status of trace plots, and low degree of auto-correlation in auto-correlation plots all indicate good convergence. In this example, the density plots for alpha look ok. More iterations are needed to achieve stationary status of trace plots for alpha[1] and alpha[2]. The auto-correlation for theta[1,2] is high, and increase thinning might help. Note that results presented above are just for demonstration and may not reflect typical GGUM results. 
+The function bayesplot() provides plots including density plots, trace plots, and auto-correlation plots to aid model convergence diagnosis. The smoothness of density plots, the stationary status of trace plots, and low degree of auto-correlation in auto-correlation plots all indicate good convergence. In this example, the density plots for alpha look ok. More iterations are needed to achieve stationary status of trace plots for alpha[1] and alpha[2]. The auto-correlation for theta[1,2] is high, and increase thinning might help. Note that results presented above are just for demonstration and may not reflect typical GGUM results. 
 
 * __pars__. Names of plotted parameters. They can be "theta", "alpha", "delta", "tau", "cor", "lambda", or a subset of parameters (e.g., paste0("alpha[",1:2,"]"), paste0("theta[1,",1:2,"]")).
 * __plot__. Types of plots. They can be "density", "trace", or "autocorrelation".
 * __inc_warmup__. Whether to include warmup iterations or not when plotting. The default is FALSE.
 
-### Step 6: Plotting observable response categories (ORCs) for items using the function itemplot.bmggum()
+### Step 6: Plotting observable response categories (ORCs) for items using the function itemplot()
 
 ```{r}
 # Obtain item plots with ORCs for all items. 
-#>itemplot.bmggum(x=mod)
+#>itemplot(x=mod)
 ```
 
 ```{r}
 # Obtain item plots with ORCs for item 2, 3, 4.
-#>itemplot.bmggum(x=mod, items = 2:4)
+#>itemplot(x=mod, items = 2:4)
 ```

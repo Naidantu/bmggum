@@ -11,7 +11,7 @@ Authors@R:
            family = "Zhang",
            role = c("aut"),
            email = "bozhang3065@gmail.com"))
-Description: Full Bayesian estimation of Multidimensional Generalized Graded Unfolding Model (MGGUM) using 'rstan' (See Stan Development Team (2020) <https://mc-stan.org/>).
+Description: Full Bayesian estimation of Multidimensional Generalized Graded Unfolding Model (MGGUM) using 'rstan' (See Stan Development Team (2020) <[https://mc-stan.org/]https://mc-stan.org/>).
     Functions are provided for estimation, result extraction, model fit statistics, and plottings.
 License: GPL (>= 3)
 Encoding: UTF-8

@@ -18,17 +18,13 @@ Selected results output
 This function extracts estimation results.
 }
 \examples{
-\donttest{
-Data <- c(1,4,4,1,1,1,1,1,1,1,4,1,1,3,1,1,NA,2,NA,3,2,2,2,1,3,2,NA,2,1,1)
-Data <- matrix(Data,nrow = 10)
-deli <- c(1,-1,2,1,3,-1)
+Data <- c(1,4,2,3)
+Data <- matrix(Data,nrow = 2)
+deli <- c(1,-1,2,1)
 deli <- matrix(deli,nrow = 2)
-ind <- c(1,1,2)
+ind <- c(1,2)
 ind <- t(ind)
-cova <- c(0.70, -1.25, 0.48, -0.47, 0.86, 1.25, 1.17, -1.35, -0.84, -0.55)
-mod <- bmggum(GGUM.Data=Data, delindex=deli, trait=2, ind=ind, option=4, covariate=cova)
-theta <- extract(mod, 'theta')
+cova <- c(0.70, -1.25)
+mod <- bmggum(GGUM.Data=Data,delindex=deli,trait=2,ind=ind,option=4,covariate=cova,iter=5,chains=1)
 alpha <- extract(mod, 'alpha')
-cor <- extract(mod, 'cor')
-data <- extract(mod, 'data')}
 }

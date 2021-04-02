@@ -25,15 +25,14 @@
 #' @param vt Standard deviation of the prior distribution for taus. The default value is 2.
 #' @return Result object that stores information including the (1) stanfit object, (2) estimated item parameters, (3) estimated person parameters, (4) correlations among traits, (5) regression coefficients linking person covariates to each trait, (6) response data (excluding respondents who endorse a single option across all items), and (7) the input row vector mapping each item to each trait. Note that when covariates are included, output (4) represents residual correlations among the traits after controlling for the covariates.
 #' @examples
-#' \donttest{
-#' Data <- c(1,4,4,1,1,1,1,1,1,1,4,1,1,3,1,1,NA,2,NA,3,2,2,2,1,3,2,NA,2,1,1)
-#' Data <- matrix(Data,nrow = 10)
-#' deli <- c(1,-1,2,1,3,-1)
+#' Data <- c(1,4,2,3)
+#' Data <- matrix(Data,nrow = 2)
+#' deli <- c(1,-1,2,1)
 #' deli <- matrix(deli,nrow = 2)
-#' ind <- c(1,1,2)
+#' ind <- c(1,2)
 #' ind <- t(ind)
-#' cova <- c(0.70, -1.25, 0.48, -0.47, 0.86, 1.25, 1.17, -1.35, -0.84, -0.55)
-#' mod <- bmggum(GGUM.Data=Data, delindex=deli, trait=2, ind=ind, option=4, covariate=cova)}
+#' cova <- c(0.70, -1.25)
+#' mod <- bmggum(GGUM.Data=Data,delindex=deli,trait=2,ind=ind,option=4,covariate=cova,iter=5,chains=1)
 #' @export
 bmggum <- function(GGUM.Data, delindex, trait, ind, option, model="UM8", covariate=NULL, iter=1000, chains=3,
                    warmup=floor(iter/2), adapt_delta=0.90, max_treedepth=15, init="random", thin=1, cores=2,

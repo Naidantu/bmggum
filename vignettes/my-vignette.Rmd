@@ -3,7 +3,7 @@ title: "bmggum: Bayesian Estimation of Multidimensional Generalized Graded Unfol
 author: Naidan Tu, Bo Zhang
 output: 
   rmarkdown::html_vignette:
-    toc: true
+    toc: TRUE
   pdf_document:
     toc: TRUE
 vignette: >

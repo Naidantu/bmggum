@@ -4,18 +4,15 @@
 #' @param index Model fit indices. They can be "waic", which is the widely applicable information criterion, "loo", which is the leave-one-out cross-validation, or "chisq.df", which is the adjusted chi-square degrees of freedom ratios for each trait separately that were introduced by Drasgow et al. (1995). The default is loo. Note that chisq.df can only be computed when the sample size is large. See documentation for loo and GGUM for more details.
 #' @return Selected model fit statistics
 #' @examples
-#' \donttest{
-#' Data <- c(1,4,4,1,1,1,1,1,1,1,4,1,1,3,1,1,NA,2,NA,3,2,2,2,1,3,2,NA,2,1,1)
-#' Data <- matrix(Data,nrow = 10)
-#' deli <- c(1,-1,2,1,3,-1)
+#' Data <- c(1,4,2,3)
+#' Data <- matrix(Data,nrow = 2)
+#' deli <- c(1,-1,2,1)
 #' deli <- matrix(deli,nrow = 2)
-#' ind <- c(1,1,2)
+#' ind <- c(1,2)
 #' ind <- t(ind)
-#' cova <- c(0.70, -1.25, 0.48, -0.47, 0.86, 1.25, 1.17, -1.35, -0.84, -0.55)
-#' mod <- bmggum(GGUM.Data=Data, delindex=deli, trait=2, ind=ind, option=4, covariate=cova)
+#' cova <- c(0.70, -1.25)
+#' mod <- bmggum(GGUM.Data=Data,delindex=deli,trait=2,ind=ind,option=4,covariate=cova,iter=5,chains=1)
 #' waic <- modfit(mod, 'waic')
-#' loocv <- modfit(mod, 'loo')
-#' chisq.df <- modfit(mod, 'chisq.df')}
 #' @export
 modfit <- function(x, index="loo"){
   UseMethod("modfit")

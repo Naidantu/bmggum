@@ -2,4 +2,8 @@
 .Rhistory
 .RData
 .Ruserdata
-
+*.o
+*.so
+*.cpp
+.DS_Store
+src/stanExports_*

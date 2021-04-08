@@ -1,7 +1,7 @@
 Package: bmggum
 Title: Bayesian Multidimensional Generalized Graded Unfolding Model
 Version: 0.1.0
-Date: 2021-3-5
+Date: 2021-4-8
 Authors@R: 
     c(person(given = "Naidan",
            family = "Tu",

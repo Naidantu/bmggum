@@ -4,6 +4,10 @@
 # bmggum
 
 <!-- badges: start -->
+
+[![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/bmggum)](https://cran.r-project.org/package=bmggum)
+[![Total
+Downloads](https://cranlogs.r-pkg.org/badges/grand-total/bmggum)](https://cranlogs.r-pkg.org/badges/grand-total/bmggum "Total downloads")
 <!-- badges: end -->
 
 The goal of bmggum is to estimate Multidimensional Generalized Graded
@@ -30,6 +34,12 @@ the bmggum package:
     plottings, respectively.
 
 ## Installation
+
+You can install bmggum from CRAN:
+
+``` r
+install.packages("bmggum")
+```
 
 You can install the development version of bmggum from GitHub:
 
@@ -76,16 +86,16 @@ theta <- matrix(theta, nrow=2)
 theta <- t(theta)
 # theta estimates in p*trait matrix format
 theta
-#>               [,1]        [,2]
-#>  [1,]  1.000478918  0.03863573
-#>  [2,] -1.517330074 -0.29803217
-#>  [3,] -1.210468411 -0.60363516
-#>  [4,]  0.685109657  1.00255476
-#>  [5,]  0.085690711 -0.76981168
-#>  [6,]  0.213125900 -0.85653665
-#>  [7,]  0.879698855  0.23162129
-#>  [8,]  0.009440613  0.49411920
-#>  [9,]  0.642475444  0.85830443
+#>              [,1]        [,2]
+#>  [1,]  1.01537640  0.05016495
+#>  [2,] -1.53290020 -0.34579264
+#>  [3,] -1.22716264 -0.55977442
+#>  [4,]  0.73438219  1.01150777
+#>  [5,] -0.02289508 -0.83776626
+#>  [6,]  0.11009091 -0.86844999
+#>  [7,]  0.85762438  0.26520432
+#>  [8,]  0.11996516  0.53755372
+#>  [9,]  0.63673648  0.86268826
 
 # 3.2 Extract the tau estimates 
 tau <- extract(x=mod, pars='tau')
@@ -96,23 +106,23 @@ tau <- matrix(tau, nrow=3)
 tau <- t(tau)
 # tau estimates in I*(option-1) matrix format
 tau
-#>            [,1]       [,2]      [,3]
-#> [1,] -0.8439766 -1.5462686 -2.349370
-#> [2,] -1.5469739 -1.8916896 -1.088957
-#> [3,] -3.1834081 -0.8843948 -0.849958
-#> [4,] -2.3538086 -1.3330377 -1.060610
+#>            [,1]       [,2]       [,3]
+#> [1,] -0.8412185 -1.5671934 -2.2907142
+#> [2,] -1.5971053 -1.9075990 -1.1402262
+#> [3,] -3.2093114 -0.8936897 -0.8808858
+#> [4,] -2.3441511 -1.3209242 -1.0455207
 
 # 3.3 Extract the lambda estimates 
 lambda <- extract(x=mod, pars='lambda')
 # lambda[1,1] is the coefficient linking person covariate 1 to latent trait 1
 # lambda[1,2] is the coefficient linking person covariate 1 to latent trait 2
 lambda
-#>                   mean    se_mean        sd       2.5%        50%     97.5%
-#> lambda[1,1]  0.3036433 0.02287562 0.4925701 -0.5797526  0.2751898 1.3980741
-#> lambda[1,2] -0.3277382 0.04226484 0.6855767 -2.0121720 -0.2743221 0.9248035
+#>                   mean    se_mean        sd       2.5%        50%    97.5%
+#> lambda[1,1]  0.2474065 0.02845930 0.5054661 -0.7168954  0.2467913 1.265200
+#> lambda[1,2] -0.3297602 0.05024748 0.7360003 -2.1310694 -0.2765893 1.003908
 #>                n_eff     Rhat
-#> lambda[1,1] 463.6499 1.006357
-#> lambda[1,2] 263.1199 1.014433
+#> lambda[1,1] 315.4537 1.005384
+#> lambda[1,2] 214.5494 1.006322
 
 ## Step 4: Obtain model fit statistics 
 waic <- modfit(x=mod, index='waic')

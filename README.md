@@ -69,7 +69,7 @@ delindex <- matrix(delindex,nrow = 2)
 ind <- c(1,1,2,2)
 ind <- t(ind)
 
-# 1.4 An p*c person covariate matrix where p equals sample size and c equals the number of covariates. The default is NULL, meaning no person covariate.
+# 1.4 A p*c person covariate matrix where p equals sample size and c equals the number of covariates. The default is NULL, meaning no person covariate.
 covariate <- c(0.70, -1.25, 0.48, -0.47, 0.86, 1.25, 1.17, -1.35, -0.84, -0.55)
 
 ## Step 2: Fit the MGGUM model
@@ -86,16 +86,16 @@ theta <- matrix(theta, nrow=2)
 theta <- t(theta)
 # theta estimates in p*trait matrix format
 theta
-#>              [,1]        [,2]
-#>  [1,]  1.01537640  0.05016495
-#>  [2,] -1.53290020 -0.34579264
-#>  [3,] -1.22716264 -0.55977442
-#>  [4,]  0.73438219  1.01150777
-#>  [5,] -0.02289508 -0.83776626
-#>  [6,]  0.11009091 -0.86844999
-#>  [7,]  0.85762438  0.26520432
-#>  [8,]  0.11996516  0.53755372
-#>  [9,]  0.63673648  0.86268826
+#>              [,1]       [,2]
+#>  [1,]  1.07121527  0.1027975
+#>  [2,] -1.55875527 -0.3535663
+#>  [3,] -1.24815714 -0.5930696
+#>  [4,]  0.67289246  0.9321539
+#>  [5,]  0.02071599 -0.7883987
+#>  [6,]  0.13734836 -0.8717916
+#>  [7,]  0.77714543  0.2065143
+#>  [8,]  0.05995454  0.4725746
+#>  [9,]  0.61507454  0.8807274
 
 # 3.2 Extract the tau estimates 
 tau <- extract(x=mod, pars='tau')
@@ -107,10 +107,10 @@ tau <- t(tau)
 # tau estimates in I*(option-1) matrix format
 tau
 #>            [,1]       [,2]       [,3]
-#> [1,] -0.8412185 -1.5671934 -2.2907142
-#> [2,] -1.5971053 -1.9075990 -1.1402262
-#> [3,] -3.2093114 -0.8936897 -0.8808858
-#> [4,] -2.3441511 -1.3209242 -1.0455207
+#> [1,] -0.8311115 -1.5336869 -2.2053919
+#> [2,] -1.5564896 -1.8560452 -1.0841664
+#> [3,] -3.2447555 -0.8550999 -0.8712466
+#> [4,] -2.3457920 -1.3355500 -1.0841193
 
 # 3.3 Extract the lambda estimates 
 lambda <- extract(x=mod, pars='lambda')
@@ -118,11 +118,11 @@ lambda <- extract(x=mod, pars='lambda')
 # lambda[1,2] is the coefficient linking person covariate 1 to latent trait 2
 lambda
 #>                   mean    se_mean        sd       2.5%        50%    97.5%
-#> lambda[1,1]  0.2474065 0.02845930 0.5054661 -0.7168954  0.2467913 1.265200
-#> lambda[1,2] -0.3297602 0.05024748 0.7360003 -2.1310694 -0.2765893 1.003908
-#>                n_eff     Rhat
-#> lambda[1,1] 315.4537 1.005384
-#> lambda[1,2] 214.5494 1.006322
+#> lambda[1,1]  0.2801784 0.04873328 0.5664977 -0.8410878  0.2652093 1.348390
+#> lambda[1,2] -0.3270137 0.08791329 0.8477615 -2.0445458 -0.3036107 1.469218
+#>                 n_eff     Rhat
+#> lambda[1,1] 135.12791 1.038007
+#> lambda[1,2]  92.99043 1.007146
 
 ## Step 4: Obtain model fit statistics 
 waic <- modfit(x=mod, index='waic')

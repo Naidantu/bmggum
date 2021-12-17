@@ -47,7 +47,7 @@ devtools::install_github("Naidantu/bmggum")
 
 ## Example
 
-This is a basic example that shows you how to prepare data, fit the model, extract and plot results.
+This is a basic example which shows you how to prepare data, fit the model, extract and plot results.
 
 ```{r example}
 library(bmggum)
@@ -111,3 +111,7 @@ bayesplot(x=mod, pars='alpha', plot='density', inc_warmup=FALSE)
 # 6.1 Obtain item plots with ORCs for item 1, 2, 3
 itemplot(x=mod, items = 1:3)
 ```
+
+## Citation
+
+Tu, N., Zhang, B., Angrave, L., & Sun, T. (2021). bmggum: An R Package for Bayesian Estimation of the Multidimensional Generalized Graded Unfolding Model With Covariates. Applied Psychological Measurement, 01466216211040488.

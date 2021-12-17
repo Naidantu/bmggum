@@ -16,7 +16,7 @@
 #' @param thin Thinning. The default value is 1. See documentation for rstan for more details.
 #' @param cores The number of computer cores used for parallel computing. The default value is 2.
 #' @param ma Mean of the prior distribution for alpha, which follows a lognormal distribution. The default value is 0.
-#' @param va Standard deviation of the prior distribution for alpha. The default value is 0.5.
+#' @param va Standard deviation of the prior distribution for alphas. The default value is 0.5.
 #' @param mdne Mean of the prior distribution for negative deltas, which follows a normal distribution. The default value is -1.
 #' @param mdnu Mean of the prior distribution for neutral deltas, which follows a normal distribution. The default value is 0.
 #' @param mdpo Mean of the prior distribution for positive deltas, which follows a normal distribution. The default value is 1.

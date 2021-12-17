@@ -23,10 +23,10 @@ the bmggum package:
 3.  Allows users to estimate the **multidimensional version** of three
     unfolding models that are available in the software GGUM2004
     (Roberts, Fang, Cui, & Wang, 2006).
-    -   UM8: The Generalized Graded Unfolding Model (GGUM).
-    -   UM4: The Partial Credit Unfolding Model, which is the GGUM with
+      - UM8: The Generalized Graded Unfolding Model (GGUM).
+      - UM4: The Partial Credit Unfolding Model, which is the GGUM with
         all alphas constrained to 1.
-    -   UM7: The Generalized Rating Scale Unfolding Model, which is the
+      - UM7: The Generalized Rating Scale Unfolding Model, which is the
         GGUM with equal taus across items.
 4.  Five functions (i.e., bmggum( ), extract( ), modfit( ), bayesplot(
     ), and itemplot( )) are provided for model estimation, results
@@ -49,7 +49,7 @@ devtools::install_github("Naidantu/bmggum")
 
 ## Example
 
-This is a basic example that shows you how to prepare data, fit the
+This is a basic example which shows you how to prepare data, fit the
 model, extract and plot results.
 
 ``` r
@@ -86,16 +86,16 @@ theta <- matrix(theta, nrow=2)
 theta <- t(theta)
 # theta estimates in p*trait matrix format
 theta
-#>              [,1]       [,2]
-#>  [1,]  1.07121527  0.1027975
-#>  [2,] -1.55875527 -0.3535663
-#>  [3,] -1.24815714 -0.5930696
-#>  [4,]  0.67289246  0.9321539
-#>  [5,]  0.02071599 -0.7883987
-#>  [6,]  0.13734836 -0.8717916
-#>  [7,]  0.77714543  0.2065143
-#>  [8,]  0.05995454  0.4725746
-#>  [9,]  0.61507454  0.8807274
+#>              [,1]        [,2]
+#>  [1,]  0.98408407  0.08350156
+#>  [2,] -1.50487597 -0.43279347
+#>  [3,] -1.26925778 -0.62846868
+#>  [4,]  0.70084271  0.92088051
+#>  [5,] -0.01014657 -0.75628886
+#>  [6,]  0.14473602 -0.75404743
+#>  [7,]  0.87271671  0.31214800
+#>  [8,]  0.08860637  0.42472170
+#>  [9,]  0.66513136  0.88082191
 
 # 3.2 Extract the tau estimates 
 tau <- extract(x=mod, pars='tau')
@@ -107,10 +107,10 @@ tau <- t(tau)
 # tau estimates in I*(option-1) matrix format
 tau
 #>            [,1]       [,2]       [,3]
-#> [1,] -0.8311115 -1.5336869 -2.2053919
-#> [2,] -1.5564896 -1.8560452 -1.0841664
-#> [3,] -3.2447555 -0.8550999 -0.8712466
-#> [4,] -2.3457920 -1.3355500 -1.0841193
+#> [1,] -0.8461398 -1.5579426 -2.3264579
+#> [2,] -1.5428458 -1.9072447 -1.0779727
+#> [3,] -3.2723114 -0.8655729 -0.8501934
+#> [4,] -2.3561168 -1.3132736 -1.0385899
 
 # 3.3 Extract the lambda estimates 
 lambda <- extract(x=mod, pars='lambda')
@@ -118,11 +118,11 @@ lambda <- extract(x=mod, pars='lambda')
 # lambda[1,2] is the coefficient linking person covariate 1 to latent trait 2
 lambda
 #>                   mean    se_mean        sd       2.5%        50%    97.5%
-#> lambda[1,1]  0.2801784 0.04873328 0.5664977 -0.8410878  0.2652093 1.348390
-#> lambda[1,2] -0.3270137 0.08791329 0.8477615 -2.0445458 -0.3036107 1.469218
-#>                 n_eff     Rhat
-#> lambda[1,1] 135.12791 1.038007
-#> lambda[1,2]  92.99043 1.007146
+#> lambda[1,1]  0.2818818 0.02440537 0.4842150 -0.6170508  0.2773099 1.313274
+#> lambda[1,2] -0.2544053 0.06024503 0.7140426 -1.8952771 -0.2270612 1.102316
+#>                n_eff     Rhat
+#> lambda[1,1] 393.6460 1.008664
+#> lambda[1,2] 140.4772 1.028196
 
 ## Step 4: Obtain model fit statistics 
 waic <- modfit(x=mod, index='waic')
@@ -136,9 +136,17 @@ bayesplot(x=mod, pars='alpha', plot='density', inc_warmup=FALSE)
 <img src="man/figures/README-example-1.png" width="70%" />
 
 ``` r
+
 ## Step 6: Plotting observable response categories (ORCs) for items
 # 6.1 Obtain item plots with ORCs for item 1, 2, 3
 itemplot(x=mod, items = 1:3)
 ```
 
 <img src="man/figures/README-example-2.png" width="70%" />
+
+## Citation
+
+Tu, N., Zhang, B., Angrave, L., & Sun, T. (2021). bmggum: An R Package
+for Bayesian Estimation of the Multidimensional Generalized Graded
+Unfolding Model With Covariates. Applied Psychological Measurement,
+01466216211040488.

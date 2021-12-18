@@ -57,14 +57,17 @@ library(bmggum)
 # 1.1 Response data in wide format
 GGUM.Data <- c(1,4,4,1,1,1,1,1,1,1,4,1,1,3,1,1,NA,2,NA,3,2,2,2,1,3,2,NA,2,1,1,2,1,NA,NA,NA,1,3,NA,1,2)
 GGUM.Data <- matrix(GGUM.Data,nrow = 10)
+GGUM.Data
 
 # 1.2 A two-row data matrix: the first row is the item number (1,2,3,4...); the second row indicates the signs of delta for each item (-1,0,1,...). For items that have negative deltas for sure, "-1" should be assigned; for items that have positive deltas, "1" should be assigned; for items whose deltas may be either positive or negative (e.g., intermediate items), "0" should assigned. We recommend at least two positive and two negative items per trait for better estimation.
 delindex <- c(1,-1,2,1,3,-1,4,1)
 delindex <- matrix(delindex,nrow = 2)
+delindex
 
 # 1.3 A row vector mapping each item to each trait. For example, c(1,1,1,2,2,2) means that the first 3 items belong to trait 1 and the last 3 items belong to trait 2.
 ind <- c(1,1,2,2)
 ind <- t(ind)
+ind
 
 # 1.4 A p*c person covariate matrix where p equals sample size and c equals the number of covariates. The default is NULL, meaning no person covariate.
 covariate <- c(0.70, -1.25, 0.48, -0.47, 0.86, 1.25, 1.17, -1.35, -0.84, -0.55)
@@ -106,6 +109,8 @@ loo <- modfit(mod)
 ## Step 5: Plottings
 # 5.1 Obtain the density plots for alpha
 bayesplot(x=mod, pars='alpha', plot='density', inc_warmup=FALSE)
+# 5.2 Obtain the trace plots for alpha
+bayesplot(x=mod, pars='alpha', plot='trace', inc_warmup=FALSE)
 
 ## Step 6: Plotting observable response categories (ORCs) for items
 # 6.1 Obtain item plots with ORCs for item 1, 2, 3

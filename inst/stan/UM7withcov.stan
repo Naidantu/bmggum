@@ -32,9 +32,9 @@ data {
   int<lower=1> I_po;
   int<lower=1> I_NN;
   int<lower=0> N_mis;
-  int<lower=1, upper=I> II[N];
-  int<lower=1, upper=J> JJ[N];
-  int<lower=0, upper=6> y[N];
+  array[N] int<lower=1, upper=I> II;
+  array[N] int<lower=1, upper=J> JJ;
+  array[N] int<lower=0, upper=6> y;
 
   // user-defined priors
   real ma;
@@ -47,7 +47,7 @@ data {
   real vt;
 
   int<lower=1,upper=I>trait;
-  int<lower=1,upper=I>ind[N];
+  array[N] int<lower=1,upper=I>ind;
   vector[trait] theta_mu;
   int<lower=1> P;
   matrix[trait*J,P] PC1;
@@ -61,7 +61,7 @@ parameters {
   vector<lower=-5,upper=5>[I_nu]  delta_nu;
   vector<lower=-5,upper=0>[K-1]   tau_raw;
 
-  vector[trait] theta[J];
+  array[J] vector[trait] theta;
   cholesky_factor_corr[trait] L_Omega;
   matrix[P,trait] lambda;    // person covariate regression coefficient
 }
